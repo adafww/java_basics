@@ -38,6 +38,7 @@ public class Basket {
     public void add(String name, int price, int weight) { add(name, price, weight, 1); }
 
     public void add(String name, int price, int weight, int count) {
+
         boolean error = false;
         if (contains(name)) {
             error = true;
@@ -63,7 +64,7 @@ public class Basket {
         }
     }
 
-        public void clear(){
+    public void clear(){
             items = "";
         }
 
