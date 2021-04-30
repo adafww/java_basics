@@ -16,6 +16,25 @@ public class Main {
         arithmetic.middle (4,6);
         arithmetic.max(24,6);
         arithmetic.min(24,6);
+        System.out.println("====Третье задание====");
+        Printer printer = new Printer();
+        printer.append("Текст");
+        printer.append("Три записи", "Дневник");
+        printer.append("Три записи", "Дневник", 2);
+        printer.print();
+        printer.getDocumentCount();
+        printer.getPagesCount();
+        printer.append("Три записи", "Дневник", 3);
+        printer.getDocumentCount();
+        printer.getPagesCount();
+        printer.getTotalPageCount();
+        printer.print();
+        printer.getDocumentCount();
+        printer.getPagesCount();
+        printer.getTotalPageCount();
+        printer.clear();
+        printer.print();
+
     }
 
 }

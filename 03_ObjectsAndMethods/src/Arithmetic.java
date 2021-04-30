@@ -1,4 +1,4 @@
-public class Arithmetic {
+public class    Arithmetic {
 
     public double result;
 
