@@ -7,19 +7,19 @@ public class Basket {
     private int limit;
 
     public Basket() {
-        increaseCount(1);
-        items = "Список товаров:";
-        this.limit = 1000000;
+
+        this (1000000);
     }
 
     public Basket(int limit) {
-        this();
+        increaseCount(0);
+        items = "Список товаров:";
         this.limit = limit;
     }
 
     public Basket(String items, int totalPrice) {
         this();
-        this.items = this.items + items;
+        this.items += items;
         this.totalPrice = totalPrice;
     }
 
@@ -27,9 +27,7 @@ public class Basket {
         return count;
     }
 
-    public static void increaseCount(int count) {
-        Basket.count = Basket.count + count;
-    }
+    public static void increaseCount(int count1) { Basket.count += count1; }
 
     public void add(String name, int price) {
         add(name, price, 0, 1);
@@ -37,14 +35,14 @@ public class Basket {
 
     public void add(String name, int price, int weight) { add(name, price, weight, 1); }
 
-    public void add(String name, int price, int weight, int count) {
+    public void add(String name, int price, int weight, int count1) {
 
         boolean error = false;
         if (contains(name)) {
             error = true;
         }
 
-        if (totalPrice + count * price >= limit) {
+        if (totalPrice + count1 * price >= limit) {
             error = true;
         }
 
@@ -55,10 +53,10 @@ public class Basket {
 
         if(weight == 0) {
             items = items + "\n" + name + " - " +
-                    count + " шт. - " + price * count;
+                    count1 + " шт. - " + price * count;
         }else {
             items = items + "\n" + name + " - " +
-                    count + " шт. - " + weight + " гр. - " + price;
+                    count1 + " шт. - " + weight + " гр. - " + price;
             totalPrice = totalPrice + count * price;
             totalWeight = totalWeight + count * weight;
         }
@@ -80,6 +78,7 @@ public class Basket {
         System.out.println(title);
         if (items.isEmpty()) {
             System.out.println("Корзина пуста");
+            System.out.println(getCount());
         } else {
             System.out.println(items);
             System.out.println("Общий вес: " + totalWeight);
