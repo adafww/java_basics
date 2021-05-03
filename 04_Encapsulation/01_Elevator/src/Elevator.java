@@ -12,18 +12,26 @@ public class Elevator {
     public void move(int floor){
         if(maxF >= floor && minF <= floor) {
             if (floor >= currentFloor) {
-                for (int i = currentFloor; i <= floor; i++) {
-                    System.out.println(i);
-                    currentFloor = i;
-                }
+                moveUp(floor);
             } else {
-                for (int i = currentFloor; i >= floor; i--) {
-                    System.out.println(i);
-                    currentFloor = i;
-                }
+                moveDown(floor);
             }
         }else {
             System.out.println("Ошибка");
+        }
+    }
+
+    public void moveUp(int floor1){
+        for (int i = currentFloor; i <= floor1; i++) {
+            System.out.println(i);
+            currentFloor = i;
+        }
+    }
+
+    public void moveDown(int floor1){
+        for (int i = currentFloor; i >= floor1; i--) {
+            System.out.println(i);
+            currentFloor = i;
         }
     }
 }
