@@ -2,45 +2,30 @@ package ru.skillbox;
 
 public class Cargo {
 
-    private final double volume;
-    private final double width;
-    private final double height;
-    private final double length;
-    private final double weight;
-    private final String registrationNumber;
-    private final String deliveryAddress;
-    private final boolean overturn;
-    private final boolean fragile;
+    private final String registrationNumber, deliveryAddress;
+    private final boolean overturn, fragile;
+    private final Dimensions dimensions;
 
     public Cargo(
-            double width,
-            double height,
-            double length,
-            double weight,
+
+            Dimensions dimensionsOption,
             String registrationNumber,
             String deliveryAddress,
             boolean overturn,
-            boolean fragile
-    ) {
-        this.weight = weight;
+            boolean fragile) {
+
         this.registrationNumber = registrationNumber;
         this.deliveryAddress = deliveryAddress;
         this.overturn = overturn;
         this.fragile = fragile;
-        Dimensions dimensions = new Dimensions(width, height, length);
-        this.volume = dimensions.getVolume();
-        this.width = dimensions.getWidth();
-        this.height = dimensions.getHeight();
-        this.length = dimensions.getLength();
+        this.dimensions = dimensionsOption;
+
     }
 
     public Cargo setDeliveryAddress(String deliveryAddress)
     {
         return new Cargo(
-                width,
-                height,
-                length,
-                weight,
+                dimensions,
                 registrationNumber,
                 deliveryAddress,
                 overturn,
@@ -50,10 +35,7 @@ public class Cargo {
     public Cargo setVolume(double width, double height, double length)
     {
         return new Cargo(
-                width,
-                height,
-                length,
-                weight,
+                new Dimensions(width, height, length, dimensions.getWeight()),
                 registrationNumber,
                 deliveryAddress,
                 overturn,
@@ -64,10 +46,7 @@ public class Cargo {
     public Cargo setWeight(double weight)
     {
         return new Cargo(
-                width,
-                height,
-                length,
-                weight,
+                new Dimensions(dimensions.getWidth(), dimensions.getHeight(), dimensions.getLength(), weight),
                 registrationNumber,
                 deliveryAddress,
                 overturn,
@@ -75,24 +54,17 @@ public class Cargo {
         );
     }
 
-    public double getDimensions() {
-        return volume;
+    public Dimensions getDimensions() {
+        return dimensions;
     }
 
     public String getAll(){
         return
-                "Width: " + width + "\n" +
-                "Height: " + height + "\n" +
-                "Length: " + length + "\n" +
-                "Weight: " + weight + "\n" +
+                "Dimensions: " + dimensions.toString() + "\n" +
                 "RegistrationNumber: " + registrationNumber + "\n" +
                 "DeliveryAddress: " + deliveryAddress + "\n" +
                 "Overturn: " + overturn + "\n" +
                 "Fragile: " + fragile;
-    }
-
-    public double getWeight() {
-        return weight;
     }
 
     public String getRegistrationNumber() {
