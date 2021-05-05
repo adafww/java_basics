@@ -8,7 +8,7 @@ public class Cargo {
 
     public Cargo(
 
-            Dimensions dimensionsOption,
+            Dimensions dimensions,
             String registrationNumber,
             String deliveryAddress,
             boolean overturn,
@@ -18,7 +18,7 @@ public class Cargo {
         this.deliveryAddress = deliveryAddress;
         this.overturn = overturn;
         this.fragile = fragile;
-        this.dimensions = dimensionsOption;
+        this.dimensions = dimensions;
 
     }
 

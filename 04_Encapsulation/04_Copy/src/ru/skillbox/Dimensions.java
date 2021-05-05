@@ -20,17 +20,11 @@ public class Dimensions {
                 "Width: " + width + " " +
                 "Height: " + height + " " +
                 "Length: " + length + " " +
+                "Weight: " + getWeight() + " " +
                 "Volume: " + getVolume();
     }
 
-    public void setWeight(double weight) {
-
-        new Dimensions(width, height, length, weight);
-    }
-
-    public double getWeight() {
-        return weight;
-    }
+    public double getWeight() { return weight; }
 
     public double getWidth() {
         return width;
