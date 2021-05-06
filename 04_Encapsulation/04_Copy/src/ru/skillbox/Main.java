@@ -14,9 +14,10 @@ public class Main {
         );
         System.out.println(cargo.getAll());
         System.out.println("====new(copy)====");
-        cargo.setDeliveryAddress("Parkovaya 10");
-        cargo.setWeight(400);
-        cargo.setVolume(400,200, 120);
-        System.out.println(cargo.getAll());
+        Cargo changedCargo = cargo
+        .setDeliveryAddress("Parkovaya 10")
+        .setWeight(400)
+        .setVolume(400,200, 120);
+        System.out.println(changedCargo.getAll());
     }
 }
