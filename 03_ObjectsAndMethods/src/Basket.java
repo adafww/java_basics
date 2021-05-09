@@ -1,8 +1,10 @@
 public class Basket {
 
     private String items = "";
-    private static int countBasket = 0, totalPrice = 0, countItem = 0, totalWeight = 0;
-    private static double middlePrice;
+    private static int countBasket = 0;
+    private static int totalPrice = 0;
+    private static int countItem = 0;
+    private static int totalWeight = 0;
     private int limit;
 
     public Basket() {
@@ -15,53 +17,61 @@ public class Basket {
         items = "Список товаров:";
         this.limit = limit;
     }
-/*
-    public Basket(String items, int totalPrice) {
-        this();
-        this.items += items;
-        this.totalPrice = totalPrice;
+
+    public static double getMiddlePrice(){
+        return totalPrice / countBasket;
     }
-*/
-    public static double getMiddlePrice(){ return middlePrice;}
 
     public static int getCountBasket() {
+
         return countBasket;
     }
 
     public static int getCountItem() {
+
         return countItem;
     }
 
     public static int getPrice(){
+
         return totalPrice;
     }
 
     public static int getWeight(){
+
         return totalWeight;
     }
 
-    public static void increaseCountBasket(int countBasketAdd) { countBasket += countBasketAdd; }
+    public static void increaseCountBasket(int countBasketAdd) {
+        countBasket += countBasketAdd;
+    }
 
-    public static void increaseCountItem(int countItemAdd) { countItem += countItemAdd; }
+    public static void increaseCountItem(int countItemAdd) {
+        countItem += countItemAdd;
+    }
 
-    public static void increasePrice(int countItemAdd, int price) { totalPrice += countItemAdd * price; }
+    public static void increasePrice(int countItemAdd, int price) {
+        totalPrice += countItemAdd * price;
+    }
 
-    public static void increaseWeight(int countItemAdd, int weight) { totalWeight += countItemAdd * weight; }
-
-    public static void middlePrice(int totalPrice, int countBasket){ middlePrice = totalPrice / countBasket; };
+    public static void increaseWeight(int countItemAdd, int weight) {
+        totalWeight += countItemAdd * weight;
+    }
 
     public void add(String name, int price) {
+
         add(name, price, 0, 1);
     }
 
-    public void add(String name, int price, int weight) { add(name, price, weight, 1); }
+    public void add(String name, int price, int weight) {
+        add(name, price, weight, 1);
+    }
 
     public void add(String name, int price, int weight, int countItemAdd) {
 
         increaseCountItem(countItemAdd);
         increasePrice(countItemAdd, price);
         increaseWeight(countItemAdd, weight);
-        middlePrice(getPrice(), getCountBasket());
         boolean error = false;
         if (contains(name)) {
             error = true;
