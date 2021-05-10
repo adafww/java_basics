@@ -12,6 +12,13 @@ public class Keyboard {
         this.weightKeyboard = weightKeyboard;
     }
 
+    public String toString(){
+        return "Keyboard:\n" +
+               "   Type - " + getType() + "\n" +
+               "   Backlight - " + isBacklight() + "\n" +
+               "   Weight(gr) - " + getWeightKeyboard() + "\n";
+    }
+
     public TypeKeyboard getType() {
         return type;
     }

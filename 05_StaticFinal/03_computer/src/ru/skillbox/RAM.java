@@ -12,6 +12,13 @@ public class RAM {
         this.weightRAM = weightRAM;
     }
 
+    public String toString(){
+        return "RAM:\n" +
+               "   Type - " + getType() + "\n" +
+               "   Volume(GB) - " + getVolumeRAM() + "\n" +
+               "   Weight(gr) - " + getWeightRAM() + "\n";
+    }
+
     public double getVolumeRAM() {
         return volumeRAM;
     }

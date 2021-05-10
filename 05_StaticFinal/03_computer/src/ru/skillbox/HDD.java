@@ -12,6 +12,14 @@ public class HDD {
         this.weightHDD = weightHDD;
     }
 
+    public String toString(){
+        return "HDD:\n" +
+               "   Type(HDD, SSD) - " + getType() + "\n" +
+               "   Volume(GB) - " + getVolumeHDD() + "\n" +
+               "   Weight(gr) - " + getWeightHDD() + "\n";
+
+    }
+
     public double getVolumeHDD() {
         return volumeHDD;
     }

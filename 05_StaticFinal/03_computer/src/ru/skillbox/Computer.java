@@ -4,7 +4,7 @@ public class Computer {
 
     private final String vendor;
     private final String name;
-    private final Processor processor;
+    private final CPU cpu;
     private final RAM ram;
     private final HDD hdd;
     private final Display display;
@@ -13,7 +13,7 @@ public class Computer {
     public Computer(
             String vendor,
             String name,
-            Processor processor,
+            CPU cpu,
             RAM ram,
             HDD hdd,
             Display display,
@@ -21,7 +21,7 @@ public class Computer {
     ){
         this.vendor = vendor;
         this.name = name;
-        this.processor = processor;
+        this.cpu = cpu;
         this.ram = ram;
         this.hdd = hdd;
         this.display = display;
@@ -29,7 +29,7 @@ public class Computer {
     }
 
     public double getComponentsWeight(){
-        return processor.getWeightCPU() +
+        return cpu.getWeightCPU() +
                 ram.getWeightRAM() +
                 hdd.getWeightHDD() +
                 display.getWeightDisplay() +
@@ -38,27 +38,11 @@ public class Computer {
     public String toString(){
         return  "Vendor: " + vendor + "\n" +
                 "Name: " + name + "\n" +
-                "Processor:\n" +
-                "   Frequency(GHz) - " + processor.getFrequency() + "\n" +
-                "   Number Of CPU Сores - " + processor.getNumberOfCPUСores() + "\n" +
-                "   Vendor - " + processor.getVendorCPU() + "\n" +
-                "   Weight(gr) - " + processor.getWeightCPU() + "\n" +
-                "RAM:\n" +
-                "   Type - " + ram.getType() + "\n" +
-                "   Volume(GB) - " + ram.getVolumeRAM() + "\n" +
-                "   Weight(gr) - " + ram.getWeightRAM() + "\n" +
-                "HDD:\n" +
-                "   Type — HDD, SSD - " + hdd.getType() + "\n" +
-                "   Volume(GB) - " + hdd.getVolumeHDD() + "\n" +
-                "   Weight(gr) - " + hdd.getWeightHDD() + "\n" +
-                "Display:\n" +
-                "   Diagonal - " + display.getDiagonal() + "\n" +
-                "   Type (IPS, TN, VA) - " + display.getType() + "\n" +
-                "   Weight(gr) - " + display.getWeightDisplay() + "\n" +
-                "Keyboard:\n" +
-                "   Type - " + keyboard.getType() + "\n" +
-                "   Backlight - " + keyboard.isBacklight() + "\n" +
-                "   Weight(gr) - " + keyboard.getWeightKeyboard() + "\n" +
+                cpu.toString() +
+                ram.toString() +
+                hdd.toString() +
+                display.toString() +
+                keyboard.toString() +
                 "ComponentsWeight(gr) - " + getComponentsWeight() + "\n";
     }
 }

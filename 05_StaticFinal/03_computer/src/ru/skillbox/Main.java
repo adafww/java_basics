@@ -7,7 +7,7 @@ public class Main {
         Computer vasyaslaptop = new Computer(
                 "Asus",
                 "506ii",
-                new Processor(
+                new CPU(
                         2.9,
                         8,
                         "AMD Ryzen 7",
@@ -32,7 +32,7 @@ public class Main {
         Computer petyaslaptop = new Computer(
                 "Huawei",
                 "MateBook D 14",
-                new Processor(
+                new CPU(
                         1.6,
                         4,
                         "Intel i5",
@@ -57,7 +57,7 @@ public class Main {
         Computer katyaslaptop = new Computer(
                 "Acer",
                 "Nitro 5",
-                new Processor(
+                new CPU(
                         3,
                         8,
                         "AMD Ryzen 5",

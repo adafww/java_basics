@@ -12,6 +12,13 @@ public class Display {
         this.weightDisplay = weightDisplay;
     }
 
+    public String toString(){
+        return "Display:\n" +
+               "   Diagonal - " + getDiagonal() + "\n" +
+               "   Type (IPS, TN, VA) - " + getType() + "\n" +
+               "   Weight(gr) - " + getWeightDisplay() + "\n";
+    }
+
     public double getDiagonal() {
         return diagonal;
     }
