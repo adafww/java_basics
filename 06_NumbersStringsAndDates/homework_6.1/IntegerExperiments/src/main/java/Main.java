@@ -7,8 +7,16 @@ public class Main {
 
   public static int sumDigits(Integer number) {
     int count = 0;
-    for (Integer i = 0; i < Integer.toString(number).length(); i++ ){
-      count += Character.getNumericValue(Integer.toString(number).charAt(i));
+    if (number == null) {
+      count = -1;
+    }else {
+      int lengthNumber = Integer.toString(number).length();
+      String stringNumber = Integer.toString(number);
+      for (Integer i = 0; i < lengthNumber; i++) {
+        count += Character.getNumericValue(stringNumber.charAt(i));
+
+
+      }
     }
     return count;
   }
