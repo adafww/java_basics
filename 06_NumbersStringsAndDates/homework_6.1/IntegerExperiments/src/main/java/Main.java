@@ -1,12 +1,16 @@
 public class Main {
 
   public static void main(String[] args) {
-    Container container = new Container();
-    container.count += 7843;
+    Container container = new Container(7843);
+    System.out.println(sumDigits(container.getCount()));
+  }
 
-    int sum = sumDigits(7843);
-
-    System.out.println(sum);
+  public static int sumDigits(Integer number) {
+    int count = 0;
+    for (Integer i = 0; i < Integer.toString(number).length(); i++ ){
+      count += Character.getNumericValue(Integer.toString(number).charAt(i));
+    }
+    return count;
   }
 
   /* Реализуйте метод sumDigits который возвращает сумму цифр числа, пример:
@@ -18,9 +22,4 @@ public class Main {
   не меняйте название метода, его возвращаемое значение и модификаторы доступа (public).
   В противном случае тестовый метод не сможет проверить ваш код
    */
-
-  public static int sumDigits(Integer number) {
-    //@TODO: write code here and delete TODO line
-    return 0;
-  }
 }
