@@ -14,8 +14,6 @@ public class Main {
       String stringNumber = Integer.toString(number);
       for (Integer i = 0; i < lengthNumber; i++) {
         count += Character.getNumericValue(stringNumber.charAt(i));
-
-
       }
     }
     return count;
