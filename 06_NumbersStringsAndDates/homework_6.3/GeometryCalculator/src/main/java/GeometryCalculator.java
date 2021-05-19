@@ -13,11 +13,7 @@ public class GeometryCalculator {
 
     public static boolean isTrianglePossible(double a, double b, double c) {
 
-        if (Math.abs(a + b) > Math.abs(c)) {
-            return true;
-        }else {
-            return false;
-        }
+        return a + b > c && a + c > b && c + b > a;
     }
 
     // перед расчетом площади рекомендуется проверить возможен ли такой треугольник
