@@ -8,6 +8,7 @@ public class Main {
     int textSum = 0;
 
     String text = "Вася заработал 5000 рублей, Петя - 7563 рубля, а Маша - 30000 рублей";
+    // Программа будеть работать при смене имен и цифр
 
     for (int i = 0; i < text.length(); i++){
       if (Character.toString(text.charAt(i)).equals(" ")){
