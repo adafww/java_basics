@@ -7,34 +7,12 @@ public class Main {
 
   public static int calculateSalarySum(String text){
 
-    int[] digitCount = new int[text.length()];
-    boolean countSwitch = false;
-    int count = 0;
     int result = 0;
+    String[] digitCount = text.split("[,А-ЯЁа-яё\\s-]+\\s*");
 
-    for (int i = 0; i < text.length(); i++){
+    for (int i = 1; i < digitCount.length; i++){
 
-      if(!countSwitch && Character.toString(text.charAt(i)).matches("[0-9]")){
-
-        digitCount[count] = i;
-        count++;
-        countSwitch = true;
-      }
-
-      if(countSwitch && !Character.toString(text.charAt(i)).matches("[0-9]")){
-
-        digitCount[count] = i;
-        count++;
-        countSwitch = false;
-      }
-    }
-
-    for (int i = 0; i < digitCount.length; i++ ){
-
-      if (digitCount[i] != 0) {
-
-        result += Integer.parseInt(text.substring(digitCount[i], digitCount[++i]));
-      }
+      result += Integer.parseInt(digitCount[i]);
     }
 
     return result;
