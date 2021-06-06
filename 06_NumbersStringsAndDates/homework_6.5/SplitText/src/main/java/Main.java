@@ -8,45 +8,20 @@ public class Main {
 
   public static String splitTextIntoWords(String text) {
 
-    int[] digitCount = new int[text.length()];
-    boolean countSwitch = false;
-    int count = 0;
     String result = "";
-    String addString;
+    String[] digitCount = text.split("[^’A-Za-z]+");
 
-    for (int i = 0; i < text.length(); i++){
+    for (int i = 0; i < digitCount.length; i++){
 
-      if(!countSwitch && Character.toString(text.charAt(i)).matches("[a-zA-Z’]")){
-
-        digitCount[count] = i;
-        count++;
-        countSwitch = true;
+      if (i == digitCount.length - 1){
+        result += digitCount[i];
       }
 
-      if(countSwitch && !Character.toString(text.charAt(i)).matches("[a-zA-Z’]")){
-
-        digitCount[count] = i;
-        count++;
-        countSwitch = false;
+      if (i < digitCount.length - 1){
+        result += digitCount[i] + System.lineSeparator();
       }
-    }
 
-    int[] stringCount = new int[count];
-
-    for (int i = 0; i < stringCount.length; i++ ) {
-
-      addString = text.substring(digitCount[i], digitCount[++i]);
-
-      if (!addString.matches(" ")) {
-
-        if (i != stringCount.length - 1){
-
-          result += (addString + "\n");
-        }else {
-
-          result += (addString);
-        }
-      }
+      System.out.println(digitCount[i]);
     }
 
     return result;
