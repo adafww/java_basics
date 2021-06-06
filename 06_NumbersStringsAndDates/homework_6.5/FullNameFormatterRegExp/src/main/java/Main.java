@@ -7,58 +7,36 @@ public class Main {
     Scanner scanner = new Scanner(System.in);
     while (true) {
 
-      int firstSpaceCheck = 0;
-      int firstCount = 0;
-      int secondCount = 0;
-      int stringCount = 0;
-
-      boolean isNumeric = false;
-
-      String lastName;
-      String firstName;
-      String patronymic;
-
       String input = scanner.nextLine();
+      boolean isDigit = false;
 
       if (input.equals("0")) {
         break;
       }else {
-        for (int i = 0; i < input.length(); i++) {
 
-          if (Character.isDigit(input.charAt(i))){
-            isNumeric = true;
-          }
-          if (Character.toString(input.charAt(i)).matches(" ")) {
+        for (int i = 0; i < input.length(); i++){
 
-            stringCount += 1;
+          if (Character.isDigit(input.charAt(i)) == true){
 
-            if (stringCount == 1 && firstSpaceCheck == 0){
-              firstCount = i;
-              firstSpaceCheck++;
-            }
-            if (stringCount == 2 && firstSpaceCheck == 1){
-              secondCount = i;
-              firstSpaceCheck++;
-            }
+            isDigit = true;
           }
         }
 
-        if (stringCount == 0 || stringCount == 3 || isNumeric){
+        String[] inputArrive = input.split("[\\s]");
+
+        if (inputArrive.length == 3 && isDigit == false){
+
+          System.out.println("Фамилия: " + inputArrive[0] + "\n" + "Имя: " + inputArrive[1] + "\n" + "Отчество: " + inputArrive[2]);
+          continue;
+        }
+        if (inputArrive.length == 2 && isDigit == false){
+
+          System.out.println("Фамилия: " + inputArrive[0] + "\n" + "Имя: " + inputArrive[1]);
+          continue;
+        }
+        if (inputArrive.length != 2 && inputArrive.length != 3 || isDigit == true) {
+
           System.out.println("Введенная строка не является ФИО");
-          continue;
-        }
-
-        if (stringCount == 1 && !isNumeric) {
-          lastName = input.substring(0, firstCount);
-          firstName = input.substring(++firstCount);
-          System.out.println("Фамилия: " + lastName + "\n" + "Имя: " + firstName);
-          continue;
-        }
-        if (stringCount == 2 && !isNumeric ) {
-          lastName = input.substring(0, firstCount);
-          firstName = input.substring(++firstCount, secondCount);
-          patronymic = input.substring(++secondCount);
-          System.out.println("Фамилия: " + lastName + "\n" + "Имя: " + firstName + "\n" + "Отчество: " + patronymic);
           continue;
         }
       }
