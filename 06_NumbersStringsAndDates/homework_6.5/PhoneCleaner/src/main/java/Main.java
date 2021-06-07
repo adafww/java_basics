@@ -5,64 +5,38 @@ public class Main {
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in);
-    int count = 0;
-    String result = "7";
+    String result = "";
 
     while (true) {
+
       String input = scanner.nextLine();
-      String[] digitCount = new String[input.length()];
       if (input.equals("0")) {
         break;
       }
 
-      for (int i = 0; i < input.length(); i++) {
+      String[] inputCount = input.split("[^0-9]");
 
-        if (Character.toString(input.charAt(i)).matches("[0-9]")) {
+      for (int i = 0; i < inputCount.length; i++){
 
-          digitCount[count] = Character.toString(input.charAt(i));
-          count++;
-        }
+        result += inputCount[i];
       }
 
-
-      if (count > 11 || count < 10) {
+      if(result.length() < 10 || result.length() > 11 || result.length() == 11 && result.substring(0, 1).equals("7") != true && result.substring(0, 1).equals("8") != true){
 
         System.out.println("Неверный формат номера");
-        result = "";
-        count = 0;
         continue;
       }
 
-      if (count == 10) {
+      if(result.length() == 10){
 
-        for (int i = 0; i < count; i++) {
-
-          result += digitCount[i];
-        }
+        System.out.println("7" + result);
       }
 
-      if (count == 11){
+      if(result.length() == 11 && result.substring(0, 1).equals("7") == true || result.substring(0, 1).equals("8") == true){
 
-        if(digitCount[0].equals("7") || digitCount[0].equals("8")){
-
-          for (int i = 1; i < count; i++) {
-
-            result += digitCount[i];
-          }
-        }
-
-        if(!digitCount[0].equals("7") && !digitCount[0].equals("8")){
-
-          System.out.println("Неверный формат номера");
-          result = "";
-          count = 0;
-          continue;
-        }
+        System.out.println("7" + result.substring(1, result.length()));
       }
 
-      System.out.println(result);
-      result = "";
-      count = 0;
       continue;
     }
   }
