@@ -1,11 +1,11 @@
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Main {
 
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in);
-    String result = "";
 
     while (true) {
 
@@ -14,33 +14,16 @@ public class Main {
         break;
       }
 
-      String[] inputCount = input.split("[^0-9]");
+      if(input.length() == 12 && input.substring(0,1).equals("+") && input.substring(1,2).equals("7") || input.length() == 11 && input.substring(0,1).equals("8") || input.length() == 11 && input.substring(0,1).equals("7") || input.length() == 10){
 
-      for (int i = 0; i < inputCount.length; i++){
-
-        result += inputCount[i];
-      }
-
-      if(result.length() < 10 || result.length() > 11 || result.length() == 11 && result.substring(0, 1).equals("7") != true && result.substring(0, 1).equals("8") != true){
+        System.out.println(Pattern.compile("([0-9]|[+0-9]{2}|)([0-9]{3})([0-9]{3})([0-9]{2})([0-9]{2})").matcher(input).replaceAll("+7($2)$3-$4-$5"));
+        continue;
+      }else {
 
         System.out.println("Неверный формат номера");
         continue;
       }
-
-      if(result.length() == 10){
-
-        System.out.println("7" + result);
-      }
-
-      if(result.length() == 11 && result.substring(0, 1).equals("7") == true || result.substring(0, 1).equals("8") == true){
-
-        System.out.println("7" + result.substring(1, result.length()));
-      }
-
-      continue;
     }
   }
 }
-
-
 
