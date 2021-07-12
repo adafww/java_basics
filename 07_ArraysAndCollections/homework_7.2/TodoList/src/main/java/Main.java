@@ -10,22 +10,21 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true){
+
             String input = scanner.nextLine();
+            String pattern = Pattern.compile(regex).matcher(input).replaceAll("$1");
+
             if (input.equals("0")) {
+
                 break;
             }
 
-            String pattern = Pattern.compile(regex).matcher(input).replaceAll("$1");
+            if(pattern.equals("ADD") && Pattern.compile(regex).matcher(input).replaceAll("$3").equals("")){
 
-            if(pattern.equals("ADD")){
+                todoList.add(Pattern.compile(regex).matcher(input).replaceAll("$5"));
+            }else{
 
-                if(Pattern.compile(regex).matcher(input).replaceAll("$3").equals("")){
-
-                    todoList.add(Pattern.compile(regex).matcher(input).replaceAll("$5"));
-                }else {
-
-                    todoList.add(Integer.parseInt(Pattern.compile(regex).matcher(input).replaceAll("$3")), Pattern.compile(regex).matcher(input).replaceAll("$5"));
-                }
+                todoList.add(Integer.parseInt(Pattern.compile(regex).matcher(input).replaceAll("$3")), Pattern.compile(regex).matcher(input).replaceAll("$5"));
             }
 
             if(pattern.equals("EDIT")){
