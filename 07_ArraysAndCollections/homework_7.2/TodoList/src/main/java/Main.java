@@ -17,34 +17,28 @@ public class Main {
             if (input.equals("0")) {
 
                 break;
-            }
-
-            if(pattern.equals("ADD") && Pattern.compile(regex).matcher(input).replaceAll("$3").equals("")){
+            }else if(pattern.equals("ADD") && Pattern.compile(regex).matcher(input).replaceAll("$3").equals("")){
 
                 todoList.add(Pattern.compile(regex).matcher(input).replaceAll("$5"));
-            }else{
+            }else if (pattern.equals("ADD")){
 
                 todoList.add(Integer.parseInt(Pattern.compile(regex).matcher(input).replaceAll("$3")), Pattern.compile(regex).matcher(input).replaceAll("$5"));
-            }
-
-            if(pattern.equals("EDIT")){
+            }else if(pattern.equals("EDIT")){
 
                 todoList.edit(Pattern.compile(regex).matcher(input).replaceAll("$5"), Integer.parseInt(Pattern.compile(regex).matcher(input).replaceAll("$3")));
-            }
-
-            if(pattern.equals("LIST")){
+            }else if(pattern.equals("LIST")){
 
                 for(int i = 0; i < todoList.getTodos().size(); i++){
 
                     System.out.println(todoList.toDoList.get(i));
                 }
-            }
-
-            if(pattern.equals("DELETE")){
+            }else if(pattern.equals("DELETE")){
 
                 todoList.delete(Integer.parseInt(Pattern.compile(regex).matcher(input).replaceAll("$3")));
+            }else {
+
+                System.out.println("Ошибка");
             }
         }
-        // TODO: написать консольное приложение для работы со списком дел todoList
     }
 }

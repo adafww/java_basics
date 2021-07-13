@@ -8,7 +8,6 @@ public class TodoList {
 
         toDoList.add(todo);
         System.out.println("Добавлено дело " + "\"" + todo + "\"");
-        // TODO: добавьте переданное дело в конец списка
     }
 
     public void add(int index, String todo) {
@@ -27,8 +26,6 @@ public class TodoList {
         }else {
             System.out.println("Ошибка");
         }
-        // TODO: добавьте дело на указаный индекс,
-        //  проверьте возможность добавления
     }
 
     public void edit(String todo, int index) {
