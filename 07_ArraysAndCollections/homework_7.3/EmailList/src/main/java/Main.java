@@ -39,11 +39,7 @@ public class Main {
                     !Pattern.compile(regex).matcher(input).replaceAll("$7").equals("")){
 
                 emailList.add(
-                        Pattern.compile(regex).matcher(input).replaceAll("$3") +
-                        Pattern.compile(regex).matcher(input).replaceAll("$4") +
-                        Pattern.compile(regex).matcher(input).replaceAll("$5") +
-                        Pattern.compile(regex).matcher(input).replaceAll("$6") +
-                        Pattern.compile(regex).matcher(input).replaceAll("$7"));
+                        Pattern.compile(regex).matcher(input).replaceAll("$3$4$5$6$7"));
             }else if(pattern.equals("LIST")){
 
 
