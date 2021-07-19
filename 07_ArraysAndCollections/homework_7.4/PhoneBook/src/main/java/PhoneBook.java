@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class PhoneBook {
 
@@ -40,6 +37,38 @@ public class PhoneBook {
     public String getNameByPhone(String phone) {
 
         String result = "";
+        boolean notYet = false;
+
+        if (phoneBookList.isEmpty()){
+
+            notYet = true;
+        }
+
+        for (Map.Entry<String, TreeSet > i: phoneBookList.entrySet()){
+
+            if(i.getValue().contains(phone)){
+
+                System.out.println(i.getKey() + " - " + i.getValue());
+            }else {
+
+                notYet = true;
+            }
+        }
+
+        if (notYet){
+
+            System.out.println("Такого номера нет в телефонной книге.");
+            System.out.println("Введите имя абонента для номера" + " \"" + phone + "\":");
+            input = scanner.nextLine();
+
+            if(input.matches(nameReg)){
+
+                addContact(phone, input);
+                result = input;
+            }
+        }
+
+        /*
 
         for (String i : phoneBookList.keySet()){
 
@@ -59,6 +88,8 @@ public class PhoneBook {
                 }
             }
         }
+
+        */
 
 
         return result;
@@ -100,10 +131,18 @@ public class PhoneBook {
 
         if(!phoneBookList.isEmpty()){
 
+            for (Map.Entry<String, TreeSet> i : phoneBookList.entrySet()){
+
+                System.out.println(i.getKey() + " - " + i.getValue());
+            }
+            /*
+
             for (String i : phoneBookList.keySet()){
 
                 System.out.println(i + " - " + phoneBookList.get(i));
             }
+
+            */
         }
         // формат одного контакта "Имя - Телефон"
         // если контактов нет в телефонной книге - вернуть пустой TreeSet
