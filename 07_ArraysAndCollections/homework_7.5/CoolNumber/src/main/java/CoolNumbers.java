@@ -42,7 +42,6 @@ public class CoolNumbers {
 
         long nanos = System.nanoTime();
 
-        Collections.sort(sortedList);
         int index = Collections.binarySearch(sortedList, number);
 
         long duration = System.nanoTime() - nanos;
