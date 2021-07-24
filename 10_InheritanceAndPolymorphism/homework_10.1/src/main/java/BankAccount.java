@@ -1,6 +1,7 @@
 public class BankAccount {
 
   double bill;
+  boolean sent;
 
   public double getAmount() {
 
@@ -15,11 +16,21 @@ public class BankAccount {
     }
   }
 
-  public void take(double amountToTake) {
+  boolean take(double amountToTake) {
 
     if (amountToTake <= bill){
 
       bill -= amountToTake;
-    }
+      return true;
+    }else return false;
+  }
+
+  boolean send(BankAccount receiver, double amount){
+
+    if (amount > 0){
+
+      receiver.bill += amount;
+      return true;
+    }else return false;
   }
 }

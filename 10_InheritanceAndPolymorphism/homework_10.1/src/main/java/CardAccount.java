@@ -1,10 +1,11 @@
 public class CardAccount extends BankAccount {
 
-    public void take(double amountToTake) {
+    boolean take(double amountToTake) {
 
         if (amountToTake <= bill){
 
             bill -= amountToTake * 1.01;
-        }
+            return true;
+        }else return false;
     }
 }
