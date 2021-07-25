@@ -4,6 +4,7 @@ public class DepositAccount extends BankAccount {
     LocalDate lastIncome;
     LocalDate lastOutcome;
 
+    @Override
     public void put(double amountToPut) {
 
         if (amountToPut > 0){
@@ -11,9 +12,9 @@ public class DepositAccount extends BankAccount {
             bill += amountToPut;
             lastIncome = LocalDate.now();
         }
-
     }
 
+    @Override
     boolean take(double amountToTake) {
 
         lastOutcome = LocalDate.now();
@@ -22,6 +23,9 @@ public class DepositAccount extends BankAccount {
 
             bill -= amountToTake;
             return true;
-        }else return false;
+        }else {
+
+            return false;
+        }
     }
 }
