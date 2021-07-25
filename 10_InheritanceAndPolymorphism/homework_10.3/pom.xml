@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <checkstyle-maven-plugin.version>3.1.1</checkstyle-maven-plugin.version>
-        <junit.platform.version>5.6.2</junit.platform.version>
+        <junit.platform.version>5.7.2</junit.platform.version>
         <junit.version>4.12</junit.version>
         <puppycrawl.version>8.34</puppycrawl.version>
         <checkstyle.config.remote>
