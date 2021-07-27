@@ -21,7 +21,10 @@ public class BankAccount {
 
       bill -= amountToTake;
       return true;
-    }else return false;
+    }else {
+
+      return false;
+    }
   }
 
   boolean send(BankAccount receiver, double amount){
