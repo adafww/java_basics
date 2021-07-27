@@ -1,7 +1,6 @@
 public class BankAccount {
 
   double bill;
-  boolean sent;
 
   public double getAmount() {
 
@@ -27,8 +26,9 @@ public class BankAccount {
 
   boolean send(BankAccount receiver, double amount){
 
-    if (amount > 0){
+    if (amount > 0 && amount <= this.bill){
 
+      this.bill -= amount;
       receiver.bill += amount;
       return true;
     }else {
