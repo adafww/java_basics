@@ -7,11 +7,15 @@ public class BankAccount {
     return bill;
   }
 
-  public void put(double amountToPut) {
+  boolean put(double amountToPut) {
 
     if (amountToPut > 0){
 
       bill += amountToPut;
+      return true;
+    } else {
+
+      return false;
     }
   }
 
@@ -29,7 +33,18 @@ public class BankAccount {
 
   boolean send(BankAccount receiver, double amount){
 
+    if (receiver.take(amount) && receiver.put(amount)){
+
+      return true;
+    } else {
+
+      return false;
+    }
+
+    /*
+    //второй способ
     if (amount > 0 && amount <= this.bill){
+
 
       this.bill -= amount;
       receiver.bill += amount;
@@ -38,5 +53,6 @@ public class BankAccount {
 
       return false;
     }
+    */
   }
 }
