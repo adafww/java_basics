@@ -1,15 +1,10 @@
 public class CardAccount extends BankAccount {
 
     @Override
+
     public boolean take(double amountToTake) {
 
-        if (amountToTake * 1.01 <= bill){
+        return super.take(amountToTake * 1.01);
 
-            bill -= amountToTake * 1.01;
-            return true;
-        }else {
-
-            return false;
-        }
     }
 }
