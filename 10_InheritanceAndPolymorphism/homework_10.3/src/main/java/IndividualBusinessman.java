@@ -3,28 +3,28 @@ public class IndividualBusinessman extends Client {
     @Override
     public void take(double amountToTake) {
 
-        if (amountToTake <= bill && amountToTake < 1000){
+        if (amountToTake < DELTAFIVE){
 
-            bill -= amountToTake * 1.01;
+            super.take(amountToTake * DELTAONE);
         }
 
-        if (amountToTake <= bill && amountToTake >= 1000){
+        if (amountToTake >= DELTAFIVE){
 
-            bill -= amountToTake * 1.005;
+            super.take(amountToTake * DELTATWO);
         }
     }
 
     @Override
     public void put(double amountToPut) {
 
-        if (amountToPut > 0 && amountToPut < 1000){
+        if (amountToPut < DELTAFIVE){
 
-            bill += amountToPut * 0.99;
+            super.put(amountToPut * DELTATHREE);
         }
 
-        if (amountToPut > 0 && amountToPut >= 1000){
+        if (amountToPut >= DELTAFIVE){
 
-            bill += amountToPut * 0.995;
+            super.put(amountToPut * DELTAFOUR);
         }
     }
 }
