@@ -20,14 +20,20 @@ public class Company {
 
         if(StaffEnum.MANAGER == type){
 
-            staff.put(nameGenerator(), new Manager());
+            String name = nameGenerator();
+
+            staff.put(name, new Manager(name));
         }else if (StaffEnum.TOPMANAGER == type){
 
-            staff.put(nameGenerator(), new TopManager(budget));
+            String name = nameGenerator();
+
+            staff.put(name, new TopManager(name, budget));
 
         }else if(StaffEnum.OPERATOR == type){
 
-            staff.put(nameGenerator(), new Operator());
+            String name = nameGenerator();
+
+            staff.put(name, new Operator(name));
         }
 
     }
@@ -40,17 +46,23 @@ public class Company {
 
         for(int i = 0; i < manager; i++){
 
-            staff.put(nameGenerator(), new Manager());
+            String name = nameGenerator();
+
+            staff.put(name, new Manager(name));
         }
 
         for(int i = 0; i < topManager; i++){
 
-            staff.put(nameGenerator(), new TopManager(budget));
+            String name = nameGenerator();
+
+            staff.put(name, new TopManager(name, budget));
         }
 
         for(int i = 0; i < operator; i++){
 
-            staff.put(nameGenerator(), new Operator());
+            String name = nameGenerator();
+
+            staff.put(name, new Operator(name));
         }
     }
 

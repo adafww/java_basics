@@ -2,6 +2,12 @@
 public class Operator extends Staff{
 
     private int salaryOperator = 50000 + (int) (Math.random() * 80000);
+    private String nameOperator;
+
+    Operator(String name){
+
+        this.nameOperator = name;
+    }
 
     @Override
     public String getPosition(){
@@ -13,5 +19,11 @@ public class Operator extends Staff{
     public int getMonthSalary() {
 
         return salaryOperator;
+    }
+
+    @Override
+    public String getName(){
+
+        return this.nameOperator;
     }
 }

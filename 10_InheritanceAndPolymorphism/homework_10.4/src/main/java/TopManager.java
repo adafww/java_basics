@@ -3,8 +3,11 @@ public class TopManager extends Staff {
     private int salaryTopManager = 115000;
     private final int LIMIT = 10000000;
     private int salaryFinal;
+    private String nameTopManager;
 
-    public TopManager(int budgetStaff){
+    public TopManager(String name, int budgetStaff){
+
+        this.nameTopManager = name;
 
         if(budgetStaff > LIMIT){
 
@@ -25,5 +28,11 @@ public class TopManager extends Staff {
     public int getMonthSalary() {
 
         return salaryFinal;
+    }
+
+    @Override
+    public String getName(){
+
+        return this.nameTopManager;
     }
 }
