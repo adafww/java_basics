@@ -6,30 +6,14 @@ public class Company {
 
     int budget = 5000000 + (int) (Math.random() * 15000000);
 
-    public List<Integer> getTopSalaryStaff(int count){
+    List<Employee> getTopSalaryStaff(int count){
 
-        TreeSet<Integer> TopSalary = new TreeSet<>();
-        int salary = 0;
-        int countSalary = 0;
-        int[] arraycount = new int[count];
+        return new ArrayList<>();
+    }
 
-        for (Map.Entry<String, Staff> word : staff.entrySet()){
+    List<Employee> getLowestSalaryStaff(int count){
 
-            for (int i = 0; i < arraycount.length; i++){
-
-                if(word.getValue().getMonthSalary() > arraycount[i]){
-
-                    arraycount[i] = word.getValue().getMonthSalary();
-                }
-            }
-        }
-
-        for (int i = 0; i < arraycount.length; i++){
-
-            TopSalary.add(arraycount[i]);
-
-        }
-        return new ArrayList<>(TopSalary);
+        return new ArrayList<>();
     }
 
     public void hire(StaffEnum type){

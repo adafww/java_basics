@@ -2,8 +2,7 @@ public class TopManager extends Staff {
 
     private int salaryTopManager = 115000;
     private final int LIMIT = 10000000;
-    private int salaryFinal = 1231231231;
-    private int budget = 5000000 + (int) (Math.random() * 15000000);
+    private int salaryFinal;
 
     public TopManager(int budgetStaff){
 
