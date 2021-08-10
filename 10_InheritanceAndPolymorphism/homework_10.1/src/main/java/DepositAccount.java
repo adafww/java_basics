@@ -23,6 +23,7 @@ public class DepositAccount extends BankAccount {
 
         lastOutcome = LocalDate.now();
         lastOutcome.minusMonths(1);
+
         if (lastIncome.isBefore(lastOutcome) && amountToTake <= bill){
 
             bill -= amountToTake;

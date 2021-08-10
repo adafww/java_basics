@@ -4,6 +4,5 @@ public class CardAccount extends BankAccount {
     public boolean take(double amountToTake) {
 
         return super.take(amountToTake * 1.01);
-
     }
 }
