@@ -7,7 +7,6 @@ public abstract class Client {
     protected final static double DELTAFOUR = 0.995;
     protected final static double DELTAFIVE = 1000;
 
-
     protected double getAmount() {
 
         return bill;
@@ -17,8 +16,6 @@ public abstract class Client {
 
         System.out.println("На счету: " + getAmount());
     }
-
-
 
     protected void put(double amountToPut) {
 

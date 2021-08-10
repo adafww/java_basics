@@ -21,7 +21,6 @@ public class IndividualBusinessman extends Client {
 
             super.put(amountToPut * DELTATHREE);
         }
-
         if (amountToPut >= DELTAFIVE){
 
             super.put(amountToPut * DELTAFOUR);
