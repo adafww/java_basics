@@ -2,38 +2,48 @@ import java.util.*;
 
 public class Company {
 
-    HashMap<String, Staff> staff = new HashMap<>();
+    TreeSet<Staff> staff = new TreeSet<>();
 
-    int budget = 5000000 + (int) (Math.random() * 15000000);
+    final int budget = 5000000 + (int) (Math.random() * 15000000);
 
-    List<Employee> getTopSalaryStaff(int count){
+    Comparator comparatorTopSalaryStaff = new TopSalaryStaff();
+    Comparator comparatorLowestSalaryStaff = new LowestSalaryStaff();
+    Comparator comparatorIdStaff = new IdStaff();
 
-        return new ArrayList<>();
+    List<Staff> getTopSalaryStaff(int count){
+
+        ArrayList<Staff> staffToList = new ArrayList<>(staff);
+
+        Collections.sort(staffToList, comparatorTopSalaryStaff);
+
+        staffToList.subList(count, staffToList.size()).clear();
+
+        return new ArrayList<>(staffToList);
     }
 
-    List<Employee> getLowestSalaryStaff(int count){
+    List<Staff> getLowestSalaryStaff(int count){
 
-        return new ArrayList<>();
+        ArrayList<Staff> staffToList = new ArrayList<>(staff);
+
+        Collections.sort(staffToList, comparatorLowestSalaryStaff);
+
+        staffToList.subList(count, staffToList.size()).clear();
+
+        return new ArrayList<>(staffToList);
     }
 
-    public void hire(StaffEnum type){
+    public void hire(StaffEnum type, String name){
 
         if(StaffEnum.MANAGER == type){
 
-            String name = nameGenerator();
-
-            staff.put(name, new Manager(name));
+            staff.add(new Manager(name));
         }else if (StaffEnum.TOPMANAGER == type){
 
-            String name = nameGenerator();
-
-            staff.put(name, new TopManager(name, budget));
+            staff.add(new TopManager(name, budget));
 
         }else if(StaffEnum.OPERATOR == type){
 
-            String name = nameGenerator();
-
-            staff.put(name, new Operator(name));
+            staff.add(new Operator(name));
         }
 
     }
@@ -46,54 +56,62 @@ public class Company {
 
         for(int i = 0; i < manager; i++){
 
-            String name = nameGenerator();
-
-            staff.put(name, new Manager(name));
+            staff.add(new Manager(nameGenerator()));
         }
 
         for(int i = 0; i < topManager; i++){
 
-            String name = nameGenerator();
-
-            staff.put(name, new TopManager(name, budget));
+            staff.add(new TopManager(nameGenerator(), budget));
         }
 
         for(int i = 0; i < operator; i++){
 
-            String name = nameGenerator();
-
-            staff.put(name, new Operator(name));
+            staff.add(new Operator(nameGenerator()));
         }
     }
 
     public void fire(String name){
 
-        if(staff.containsKey(name)){
+        for (Staff i: staff){
 
-            staff.remove(name);
-            System.out.println("Работник уволен");
-        }else {
+            if(i.getName().equals(name)){
 
-            System.out.println("Работник не найден");
+                staff.remove(i);
+                System.out.println("Работник уволен");
+            }
         }
+    }
+
+    public void halfFire(){
+
+        ArrayList<Staff> staffToListForHalfDelete = new ArrayList<>(staff);
+
+        Collections.sort(staffToListForHalfDelete, comparatorIdStaff);
+
+        staffToListForHalfDelete.subList(staffToListForHalfDelete.size() / 2, staffToListForHalfDelete.size()).clear();
+
+        TreeSet<Staff> staffAfterDelete = new TreeSet<>(staffToListForHalfDelete);
+
+        staff = staffAfterDelete;
     }
 
     public void getStaffInfo(String name){
 
-        if(staff.containsKey(name)){
+        for (Staff i: staff){
 
-            System.out.println("Name: " + name + "\n" + "Position: " + staff.get(name).getPosition() + "\n" + "Salary: " + staff.get(name).getMonthSalary());
-        }else {
+            if(i.getName().equals(name)){
 
-            System.out.println("Работник не найден");
+                System.out.println("Name: " + name + "\n"
+                        + "Position: " + i.getPosition() + "\n"
+                        + "Salary: " + i.getMonthSalary() + "р." + "\n"
+                        + "id: " + i.identificationNumber());
+            }
         }
-
     }
 
     public void getIncome(){
 
         System.out.println("Доход компании: " + budget);
-
     }
 
     private String nameGenerator(){
@@ -102,7 +120,6 @@ public class Company {
         final int B = 9;
         String[] staffFirstName = {"Alexey ", "Alexander ", "Roman ", "Dmitry ", "Michael ", "Pavel ", "Gregory ", "Sergey ", "Oleg ", "Denis "};
         String[] staffLastName = {"Vladimirov", "Ivanov", "Vasil'ev", "Sergeev", "Petrov", "Alexeev", "Antonov", "Travin", "Marinov", "Olegov"};
-
         return staffFirstName[A + (int) (Math.random() * B)] + staffLastName[A + (int) (Math.random() * B)];
     }
 }

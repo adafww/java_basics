@@ -1,5 +1,6 @@
 public class TopManager extends Staff {
 
+    private int identificationNumber = 10000 + (int) (Math.random() * 99999);
     private int salaryTopManager = 115000;
     private final int LIMIT = 10000000;
     private int salaryFinal;
@@ -16,6 +17,12 @@ public class TopManager extends Staff {
 
             salaryFinal = salaryTopManager;
         }
+    }
+
+    @Override
+    public int identificationNumber(){
+
+        return identificationNumber;
     }
 
     @Override
