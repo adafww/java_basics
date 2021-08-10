@@ -1,6 +1,6 @@
 public class BankAccount {
 
-  double bill;
+  protected double bill;
 
   public double getAmount() {
 
@@ -41,18 +41,5 @@ public class BankAccount {
       return false;
     }
 
-    /*
-    //второй способ
-    if (amount > 0 && amount <= this.bill){
-
-
-      this.bill -= amount;
-      receiver.bill += amount;
-      return true;
-    }else {
-
-      return false;
-    }
-    */
   }
 }

@@ -1,8 +1,8 @@
 import java.time.LocalDate;
 public class DepositAccount extends BankAccount {
 
-    LocalDate lastIncome;
-    LocalDate lastOutcome;
+    private LocalDate lastIncome;
+    private LocalDate lastOutcome;
 
     @Override
     boolean put(double amountToPut) {
