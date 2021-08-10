@@ -2,13 +2,13 @@ import java.util.*;
 
 public class Company {
 
-    TreeSet<Staff> staff = new TreeSet<>();
+    private TreeSet<Staff> staff = new TreeSet<>();
 
-    final int budget = 5000000 + (int) (Math.random() * 15000000);
+    private final int budget = 5000000 + (int) (Math.random() * 15000000);
 
-    Comparator comparatorTopSalaryStaff = new TopSalaryStaff();
-    Comparator comparatorLowestSalaryStaff = new LowestSalaryStaff();
-    Comparator comparatorIdStaff = new IdStaff();
+    private Comparator comparatorTopSalaryStaff = new TopSalaryStaff();
+    private Comparator comparatorLowestSalaryStaff = new LowestSalaryStaff();
+    private Comparator comparatorIdStaff = new IdStaff();
 
     List<Staff> getTopSalaryStaff(int count){
 
