@@ -7,7 +7,7 @@ public class DepositAccount extends BankAccount {
     @Override
     boolean put(double amountToPut) {
         if (amountToPut > 0){
-            bill += amountToPut;
+            setBill(getBill() + amountToPut);
             lastIncome = LocalDate.now();
             return true;
         } else {
@@ -19,8 +19,8 @@ public class DepositAccount extends BankAccount {
     boolean take(double amountToTake) {
         lastOutcome = LocalDate.now();
         lastOutcome.minusMonths(1);
-        if (lastIncome.isBefore(lastOutcome) && amountToTake <= bill){
-            bill -= amountToTake;
+        if (lastIncome.isBefore(lastOutcome) && amountToTake <= getBill()){
+            setBill(getBill() - amountToTake);
             return true;
         }else {
             return false;

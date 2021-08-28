@@ -1,5 +1,5 @@
 public class BankAccount {
-  protected double bill;
+  private double bill;
 
   public double getBill() {
     return bill;
