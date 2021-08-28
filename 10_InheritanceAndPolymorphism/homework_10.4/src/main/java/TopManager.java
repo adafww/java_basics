@@ -1,45 +1,28 @@
 public class TopManager extends Staff {
 
-    private int identificationNumber = 10000 + (int) (Math.random() * 99999);
-    private int salaryTopManager = 115000;
-    private final int LIMIT = 10000000;
-    private int salaryFinal;
-    private String nameTopManager;
+    private static final int MIN_INCOME = 10000000;
+    private static final double MULTI = 1.5;
+    private Company company;
 
-    public TopManager(String name, int budgetStaff){
+    public TopManager(int salary, Company company){
 
-        this.nameTopManager = name;
-
-        if(budgetStaff > LIMIT){
-
-            salaryFinal = (int) (salaryTopManager + salaryTopManager * 1.5);
-        }else {
-
-            salaryFinal = salaryTopManager;
-        }
+        super(salary);
+        setCompany(company);
     }
-
-    @Override
-    public int identificationNumber(){
-
-        return identificationNumber;
-    }
-
-    @Override
-    public String getPosition(){
-
-        return "TopManager";
-    }
-
     @Override
     public int getMonthSalary() {
 
-        return salaryFinal;
+        int salary = super.getMonthSalary();
+        if(company.getIncome() > MIN_INCOME){
+
+            return (int) (salary + salary * MULTI);
+        }
+        return salary;
     }
 
     @Override
-    public String getName(){
+    public void setCompany(Company company) {
 
-        return this.nameTopManager;
+        this.company = company;
     }
 }

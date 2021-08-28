@@ -1,14 +1,15 @@
+public abstract class Staff implements Employee {
 
-public abstract class Staff implements Employee, Comparable<Staff> {
+    private int salary;
 
-    public int identificationNumber(){
+    public Staff(int salary){
 
-        return 10000 + (int) (Math.random() * 99999);
+        this.salary = (int) ((Math.random() * salary) + salary);
     }
 
     @Override
-    public int compareTo(Staff o) {
+    public int getMonthSalary(){
 
-        return o.getMonthSalary() - this.getMonthSalary();
+        return salary;
     }
 }
