@@ -14,12 +14,12 @@ public class Main {
     public static List<Flight> findPlanesLeavingInTheNextTwoHours(Airport airport) {
 
         final int TWOHOURS = 7_200_000;
-        Date date = new Date();
+        final long time = System.currentTimeMillis();
 
         return airport.getTerminals().stream()
                 .flatMap(a -> a.getFlights().stream())
-                .filter(g -> g.getDate().getTime() < (date.getTime() + TWOHOURS)
-                        && g.getDate().getTime() >= date.getTime()
+                .filter(g -> g.getDate().getTime() < (time + TWOHOURS)
+                        && g.getDate().getTime() >= time
                         && g.getType().equals(Flight.Type.DEPARTURE))
                 .collect(Collectors.toList());
     }
