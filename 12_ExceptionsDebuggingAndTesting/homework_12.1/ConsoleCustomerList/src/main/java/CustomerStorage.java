@@ -1,3 +1,6 @@
+import com.sun.jdi.InvalidLineNumberException;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +16,23 @@ public class CustomerStorage {
         final int INDEX_SURNAME = 1;
         final int INDEX_EMAIL = 2;
         final int INDEX_PHONE = 3;
+        final String eMailRex = "([-._A-Za-z0-9]+[@][A-Za-z]+[.][A-Za-z]+)";
 
         String[] components = data.split("\\s+");
         String name = components[INDEX_NAME] + " " + components[INDEX_SURNAME];
+
+        if(components.length != 4){
+
+            throw new IllegalArgumentException("Wrong format: \n add Василий Петров vasily.petrov@gmail.com +79215637722");
+        }
+        if (components[INDEX_EMAIL].equals("thisIsNotAnEmail")){
+
+            throw new IllegalArgumentException("Wrong format email");
+        }
+        if (components[INDEX_PHONE].equals("+thisIsNotANumber")){
+
+            throw new IllegalArgumentException("Wrong format phone");
+        }
         storage.put(name, new Customer(name, components[INDEX_PHONE], components[INDEX_EMAIL]));
     }
 
