@@ -13,6 +13,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         CustomerStorage executor = new CustomerStorage();
 
+        //ArrayOutOfBoundsTest arrayOutOfBoundsTest = new ArrayOutOfBoundsTest(1);
+        //NumberFormatException numberFormatException = new NumberFormatException("+99919(12--2)");
+        //ArrayStoreException arrayStoreException = new ArrayStoreException();
+
+
+
+
         while (true) {
 
             try {
