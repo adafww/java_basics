@@ -94,12 +94,25 @@ public class RoureCalculatorTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-    public void testGetShortestRoute(){
+    public void testGetShortestRouteOneLine(){
+
+        List<Station> actual = routeCalculator.getShortestRoute(stations.get(0), stations.get(1));
+        List<Station> expected = routeOneLine;
+        assertEquals(expected, actual);
+    }
+
+    public void testGetShortestRouteTwoLine(){
 
         List<Station> actual = routeCalculator.getShortestRoute(stations.get(0), stations.get(3));
-        List<Station> expected = stations;
+        List<Station> expected = routeTwoLine;
         assertEquals(expected, actual);
+    }
 
+    public void testGetShortestRouteThreeLine(){
+
+        List<Station> actual = routeCalculator.getShortestRoute(stations.get(0), stations.get(5));
+        List<Station> expected = routeThreeLine;
+        assertEquals(expected, actual);
     }
 
     @Override

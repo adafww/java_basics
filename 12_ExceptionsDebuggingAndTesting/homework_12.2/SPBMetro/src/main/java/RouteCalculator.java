@@ -118,7 +118,10 @@ public class RouteCalculator {
         return null;
     }
 
+    //Здесь была ошибка
+
     private List<Station> getRouteWithTwoConnections(Station from, Station to) {
+
         if (from.getLine().equals(to.getLine())) {
             return null;
         }
