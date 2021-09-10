@@ -1,5 +1,7 @@
 import core.Line;
 import core.Station;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private static Logger logger1, logger2, logger3;
     private static final String DATA_FILE = "src/main/resources/map.json";
     private static Scanner scanner;
 
@@ -18,19 +21,34 @@ public class Main {
 
     public static void main(String[] args) {
         RouteCalculator calculator = getRouteCalculator();
+        logger1 = LogManager.getLogger("log1");//.getRootLogger();
+        logger2 = LogManager.getLogger("log2");
+        logger3 = LogManager.getLogger("log3");
 
         System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
         scanner = new Scanner(System.in);
         for (; ; ) {
-            Station from = takeStation("Введите станцию отправления:");
-            Station to = takeStation("Введите станцию назначения:");
+            try {
 
-            List<Station> route = calculator.getShortestRoute(from, to);
-            System.out.println("Маршрут:");
-            printRoute(route);
+                int[] n = new int[2];
+                for (int i = 0; i <= 3; i++){
 
-            System.out.println("Длительность: " +
-                    RouteCalculator.calculateDuration(route) + " минут");
+                    n[i] = 1;
+                }
+
+                Station from = takeStation("Введите станцию отправления:");
+                Station to = takeStation("Введите станцию назначения:");
+
+                List<Station> route = calculator.getShortestRoute(from, to);
+                System.out.println("Маршрут:");
+                printRoute(route);
+
+                System.out.println("Длительность: " +
+                        RouteCalculator.calculateDuration(route) + " минут");
+            }catch (Exception e){
+                logger3.info(e.getMessage());
+                break;
+            }
         }
     }
 
@@ -61,8 +79,10 @@ public class Main {
             String line = scanner.nextLine().trim();
             Station station = stationIndex.getStation(line);
             if (station != null) {
+                logger2.info("Станция найдена: " + line);
                 return station;
             }
+            logger1.info("Станция не найдена: " + line);
             System.out.println("Станция не найдена :(");
         }
     }
