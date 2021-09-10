@@ -22,7 +22,7 @@ public class RouteCalculator {
         }
 
         route = getRouteWithOneConnection(from, to);
-        if (route != null) {
+        if (!route.isEmpty()) {
             return route;
         }
 
@@ -45,6 +45,7 @@ public class RouteCalculator {
     }
 
     private List<Station> getRouteOnTheLine(Station from, Station to) {
+
         if (!from.getLine().equals(to.getLine())) {
             return null;
         }
@@ -101,11 +102,14 @@ public class RouteCalculator {
     }
 
     private boolean isConnected(Station station1, Station station2) {
+
+
         Set<Station> connected = stationIndex.getConnectedStations(station1);
         return connected.contains(station2);
     }
 
     private List<Station> getRouteViaConnectedLine(Station from, Station to) {
+
         Set<Station> fromConnected = stationIndex.getConnectedStations(from);
         Set<Station> toConnected = stationIndex.getConnectedStations(to);
         for (Station srcStation : fromConnected) {
@@ -117,8 +121,6 @@ public class RouteCalculator {
         }
         return null;
     }
-
-    //Здесь была ошибка
 
     private List<Station> getRouteWithTwoConnections(Station from, Station to) {
 
@@ -133,8 +135,9 @@ public class RouteCalculator {
 
         for (Station srcStation : fromLineStations) {
             for (Station dstStation : toLineStations) {
-                List<Station> connectedLineRoute =
-                        getRouteViaConnectedLine(srcStation, dstStation);
+
+                List<Station> connectedLineRoute = getRouteViaConnectedLine(srcStation, dstStation);
+
                 if (connectedLineRoute == null) {
                     continue;
                 }
