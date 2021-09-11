@@ -2,6 +2,8 @@ import core.Line;
 import core.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,7 +15,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static Logger logger1, logger2, logger3;
+    public static Logger logger;
+    public static final Marker marker1 = MarkerManager.getMarker("incorrect_input");
+    public static final Marker marker2 = MarkerManager.getMarker("correct_input");
+    public static final Marker marker3 = MarkerManager.getMarker("exception");
     private static final String DATA_FILE = "src/main/resources/map.json";
     private static Scanner scanner;
 
@@ -21,21 +26,20 @@ public class Main {
 
     public static void main(String[] args) {
         RouteCalculator calculator = getRouteCalculator();
-        logger1 = LogManager.getLogger("log1");//.getRootLogger();
-        logger2 = LogManager.getLogger("log2");
-        logger3 = LogManager.getLogger("log3");
+        logger = LogManager.getRootLogger();
 
         System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
         scanner = new Scanner(System.in);
         for (; ; ) {
             try {
-
+                /*
+                //Array Out Of Bounds
                 int[] n = new int[2];
                 for (int i = 0; i <= 3; i++){
 
                     n[i] = 1;
                 }
-
+                 */
                 Station from = takeStation("Введите станцию отправления:");
                 Station to = takeStation("Введите станцию назначения:");
 
@@ -46,7 +50,7 @@ public class Main {
                 System.out.println("Длительность: " +
                         RouteCalculator.calculateDuration(route) + " минут");
             }catch (Exception e){
-                logger3.info(e.getMessage());
+                logger.info(marker3, e.getMessage());
                 break;
             }
         }
@@ -79,10 +83,10 @@ public class Main {
             String line = scanner.nextLine().trim();
             Station station = stationIndex.getStation(line);
             if (station != null) {
-                logger2.info("Станция найдена: " + line);
+                logger.info(marker2, "Станция найдена: " + line);
                 return station;
             }
-            logger1.info("Станция не найдена: " + line);
+            logger.info(marker1,"Станция не найдена: " + line);
             System.out.println("Станция не найдена :(");
         }
     }

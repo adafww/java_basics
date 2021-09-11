@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="WARN">
     <appenders>
-        <File name="incorrect_input" fileName="logs/input_errors.log">
+        <File name="log1" fileName="logs/input_errors.log">
             <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <MarkerFilter marker="incorrect_input" onMatch="ACCEPT" onMismatch="DENY"/>
         </File>
-        <File name="correct_input" fileName="logs/search.log">
+        <File name="log2" fileName="logs/search.log">
             <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <MarkerFilter marker="correct_input" onMatch="ACCEPT" onMismatch="DENY"/>
         </File>
-        <File name="exception" fileName="logs/exceptions.log">
+        <File name="log3" fileName="logs/exceptions.log">
             <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <MarkerFilter marker="exception" onMatch="ACCEPT" onMismatch="DENY"/>
         </File>
     </appenders>
-
     <loggers>
-        <root level="debug"></root>
-        <logger name="log1" level="info">
-            <AppenderRef ref="incorrect_input"/>
-        </logger>
-        <logger name="log2" level="info">
-            <AppenderRef ref="correct_input"/>
-        </logger>
-        <logger name="log3" level="info">
-            <AppenderRef ref="exception"/>
-        </logger>
+        <root level="INFO">
+            <AppenderRef ref="log1"/>
+            <AppenderRef ref="log2"/>
+            <AppenderRef ref="log3"/>
+        </root>
     </loggers>
 </configuration>
