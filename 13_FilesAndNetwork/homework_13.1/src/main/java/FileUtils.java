@@ -1,12 +1,11 @@
 import java.io.File;
-import java.io.IOException;
 
 public class FileUtils {
 
     public static long calculateFolderSize(String path) {
         return dirSize(new File(path));
     }
-    private static long dirSize(File file) throws NullPointerException{
+    private static long dirSize(File file) {
         long size;
         if (file.isDirectory()) {
             size = 0;
