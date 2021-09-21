@@ -1,7 +1,6 @@
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,18 +12,10 @@ public class Main {
 
         String htmlFile = parseFile("data/lenta_ru.html");
         Document doc = Jsoup.parse(htmlFile);
-        Elements elements = doc.select("img");
         List<String> strings = new ArrayList<>();
         List<String> names = new ArrayList<>();
-        for (int i = 0; i < elements.size(); i++){
-            String element = elements.get(i).attr("abs:src");
-            String[] str1 = element.split("/");
-            if(str1[str1.length - 1].indexOf(".") != -1){
-                strings.add(element);
-                String[] str = strings.get(i).split("/");
-                names.add(str[str.length - 1]);
-            }
-        }
+        doc.select("img[src~=(?i)\\.(png|jpe?g|webp)]").stream().forEach(a -> strings.add(a.attr("abs:src")));
+        strings.stream().forEach(b -> names.add(b.split("/")[b.split("/").length - 1]));
         for (int i = 0; i < strings.size(); i++){
             try {
                 Connection.Response response = Jsoup.connect(strings.get(i)).ignoreContentType(true).execute();
