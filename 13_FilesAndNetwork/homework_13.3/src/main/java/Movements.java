@@ -1,85 +1,74 @@
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Movements {
-    private static final String REX = "^([А-ЯЁа-яёA-Za-z0-9,. _+]+)([\\/A-Za-z0-9 _>|\\\\A-Za-z0-9 ]*[ ])([0-9. ]{17})([ 0-9.]+)(RUR|EUR|USD)([A-Za-z0-9 ,.()-]+|)(\\\"|)([0-9,]+|)(\\\"|)";
     private static HashMap<String, List<Double>> finalList = new HashMap<>();
+    Map<String, Double[]> categories;
 
     public Movements(String pathMovementsCsv) {
+        List<String> records = null;
         try {
-            List<String[]> strings = new ArrayList<>(getList(Files.readAllLines(Paths.get(pathMovementsCsv))));
-            finalList = getBigList(strings);
-        }catch (Exception ex){
-            ex.printStackTrace();
+            records = Files.readAllLines(Paths.get(pathMovementsCsv));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-    }
+        Pattern pattern = Pattern.compile("\"\\d+,\\d+\"");
+        categories = new HashMap<>();
 
-    private static List<String[]> getList(List<String> str){
-        List<String[]> strings = new ArrayList<>();
-        for (int i = 1; i < str.size(); i++){
-            String[] str1 = Pattern.compile(REX)
-                    .matcher(str.get(i))
-                    .replaceAll("$2#$4#$5#$8")
-                    .split("#");
-            strings.add(str1);
-        }
-        return strings;
-    }
+        for (int i = 1; i < records.size(); i++) {
+            String line = records.get(i);
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                String wrong = matcher.group();
+                String good = wrong.replace(",", ".");
+                line = line.replace(wrong, good);
+            }
 
-    private static HashMap<String, List<Double>> getBigList(List<String[]> str){
-        HashMap<String, List<Double>> list = new HashMap<>();
-        for(int i = 0; i < str.size();i++){
-            String name = str
-                    .get(i)[0]
-                    .replace("/", "")
-                    .replace("\\", "")
+            String[] columns = line.split(",");
+            String category = columns[5];
+            category = category
+                    .replaceAll("\\d+(\\++|\\.)\\d+(\\.\\d+)?", "")
                     .trim()
-                    .toUpperCase();
-            List<Double> doubles = new ArrayList<>();
-            if(list.containsKey(name)){
-                doubles = list.get(name);
+                    .replaceAll(" {3,}+.+", "");
+            if (!categories.containsKey(category)) {
+                categories.put(category, new Double[]{0.0, 0.0});
             }
-            if (str.get(i)[2].equals("RUR")){
-                if (str.get(i)[0].trim().substring(0,1).equals("/")){
-                    doubles.add(Double.parseDouble(str.get(i)[1].trim()));
-                }else {
-                    doubles.add(Double.parseDouble("-" + str.get(i)[1].trim()));
-                }
-            }else {
-                if (str.get(i)[0].trim().substring(0,1).equals("/")){
-                    doubles.add(Double.parseDouble(str.get(i)[3].replace(",", ".")));
-                }else {
-                    doubles.add(Double.parseDouble("-" + str.get(i)[3].replace(",", ".")));
-                }
-            }
-            list.put(name, doubles);
+
+            categories.get(category)[0] += parseDouble(columns[6]);
+            categories.get(category)[1] += parseDouble(columns[7]);
         }
-        return list;
+
+        System.out.println("Общий приход " + sum(categories, 0));
+        System.out.println("Общий расход " + sum(categories, 1));
+
+        System.out.println("\nПо категориям:");
+        for (String key : categories.keySet()) {
+            System.out.println("Категория: " + key);
+            System.out.println("Приход: " + categories.get(key)[0]);
+            System.out.println("Расход: " + categories.get(key)[1]);
+            System.out.println();
+        }
+    }
+
+    private static Double parseDouble(String num) {
+        return Double.parseDouble(num.replace("\"", ""));
+    }
+
+    private static Double sum(Map<String, Double[]> categories, int index) {
+        return categories.values().stream().mapToDouble(e -> e[index]).sum();
     }
 
     public double getExpenseSum() {
-        return Math.abs(finalList.entrySet()
-                .stream()
-                .flatMap(a -> a.getValue()
-                .stream()
-                .filter(b -> b < 0))
-                .mapToDouble(Double::doubleValue)
-                .sum());
+        return sum(categories, 1);
     }
 
     public double getIncomeSum() {
-
-        return finalList.entrySet()
-                .stream()
-                .flatMap(a -> a.getValue()
-                .stream()
-                .filter(b -> b > 0))
-                .mapToDouble(Double::doubleValue)
-                .sum();
+        return sum(categories, 0);
     }
 
     public void getOrgExp(){
