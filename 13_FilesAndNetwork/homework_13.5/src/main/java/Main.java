@@ -1,3 +1,4 @@
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,7 +13,7 @@ public class Main {
     private static final String REX_LINES = "(.*line=\")([0-9A-Z]*)(\\\">)([А-ЯЁа-яё0-9 -]+)(<\\/span>)";
     private static List<String[]> listConnections = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, JSONException {
         Document document = Jsoup.connect("https://www.moscowmap.ru/metro.html#lines").maxBodySize(0).get();
         List<String> listStations = new ArrayList<>();
         List<String> listLines = new ArrayList<>();
@@ -34,7 +35,7 @@ public class Main {
         //System.out.println(JSONObject.quote(jsonObject.toString()));
     }
 
-    private static JSONObject getJSONStations(List<String[]> station, List<String[]> line){
+    private static JSONObject getJSONStations(List<String[]> station, List<String[]> line) throws JSONException {
         JSONObject jsonStations = new JSONObject();
         int stationCount = 0;
         int lineCount = 0;
