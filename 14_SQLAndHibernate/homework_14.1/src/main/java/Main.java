@@ -13,5 +13,8 @@ public class Main {
         while(resultSet.next()){
             System.out.println(resultSet.getString("course_name") + " - " + resultSet.getString("AVG_salary_month"));
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
     }
 }
