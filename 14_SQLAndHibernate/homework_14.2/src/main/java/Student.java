@@ -18,6 +18,10 @@ public class Student {
             joinColumns = {@JoinColumn(name = "student_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private List<Course> courses;
+
+    //@OneToMany(cascade = CascadeType.ALL)
+    //private List<PurchaseList> purchaseLists;
+
     public List<Course> getCourses() {
         return courses;
     }

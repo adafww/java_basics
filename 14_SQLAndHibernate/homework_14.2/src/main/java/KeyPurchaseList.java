@@ -10,6 +10,15 @@ public class KeyPurchaseList implements Serializable {
     @Column(name = "course_name")
     private String courseName;
 
+    public KeyPurchaseList(String studentName, String courseName) {
+        this.studentName = studentName;
+        this.courseName = courseName;
+    }
+
+    public KeyPurchaseList() {
+
+    }
+
     public String getStudentName() {
         return studentName;
     }

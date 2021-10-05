@@ -15,7 +15,7 @@ public class Subscription {
     @Column(name = "subscription_date")
     private Date subscriptionDate;
 
-    public Course getCourseId() {
+    public Course getCourse() {
         return course;
     }
 
