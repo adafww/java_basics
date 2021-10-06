@@ -9,6 +9,15 @@ public class Key implements Serializable {
     @Column(name = "course_id")
     private int courseId;
 
+    public Key(int studentId, int courseId) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+    }
+
+    public Key() {
+
+    }
+
     public int getStudentId() {
         return studentId;
     }

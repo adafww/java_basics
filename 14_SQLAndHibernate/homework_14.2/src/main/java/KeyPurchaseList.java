@@ -5,6 +5,9 @@ import java.util.Objects;
 
 @Embeddable
 public class KeyPurchaseList implements Serializable {
+
+    static final long serialVersionUID = 1L;
+
     @Column(name = "student_name")
     private String studentName;
     @Column(name = "course_name")

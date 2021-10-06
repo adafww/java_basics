@@ -1,26 +1,28 @@
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "purchaselist")
 public class PurchaseList {
+
     @EmbeddedId
     private KeyPurchaseList id;
+    //@ManyToOne(cascade = CascadeType.ALL)
+    //@MapsId("studentName")
+    //@JoinColumn(name = "student_name", insertable = false, updatable = false)
+    //private Student student;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_name", insertable = false, updatable = false)
-    private List<Student> students;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_name", insertable = false, updatable = false)
-    @JoinColumn(name = "price", insertable = false, updatable = false)
-    private List<Course> courses;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subscription_date")
-    private List<Subscription> subscriptions;
+    //@ManyToOne(cascade = CascadeType.ALL)
+    //@MapsId("courseName")
+    //@JoinColumn(name = "course_name", insertable = false, updatable = false)
+    //private Course course;
+    @Column(name = "student_name", insertable = false, updatable = false)
+    private String studentName;
+    @Column(name = "course_name", insertable = false, updatable = false)
+    private String courseName;
+    private int price;
+    @Column(name = "subscription_date")
+    private Date subscription;
 
     public KeyPurchaseList getId() {
         return id;
@@ -30,27 +32,35 @@ public class PurchaseList {
         this.id = id;
     }
 
-    public List<Student> getStudents() {
-        return students;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public List<Subscription> getSubscriptions() {
-        return subscriptions;
+    public int getPrice() {
+        return price;
     }
 
-    public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Date getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Date subscription) {
+        this.subscription = subscription;
     }
 }

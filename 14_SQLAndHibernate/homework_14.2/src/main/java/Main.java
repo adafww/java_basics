@@ -36,7 +36,8 @@ public class Main {
         System.out.println(subscription.getCourse().getName());
         System.out.println("-----------------------------------");
         PurchaseList purchaseList = session.get(PurchaseList.class, new KeyPurchaseList(student.getName(), course.getName()));
-        //System.out.println(purchaseList.getCourse().getName());
+        System.out.println(purchaseList.getStudentName());
+        System.out.println(purchaseList.getCourseName());
         System.out.println(purchaseList.getSubscription());
         sessionFactory.close();
     }
