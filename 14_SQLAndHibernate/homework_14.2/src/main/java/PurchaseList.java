@@ -7,15 +7,6 @@ public class PurchaseList {
 
     @EmbeddedId
     private KeyPurchaseList id;
-    //@ManyToOne(cascade = CascadeType.ALL)
-    //@MapsId("studentName")
-    //@JoinColumn(name = "student_name", insertable = false, updatable = false)
-    //private Student student;
-
-    //@ManyToOne(cascade = CascadeType.ALL)
-    //@MapsId("courseName")
-    //@JoinColumn(name = "course_name", insertable = false, updatable = false)
-    //private Course course;
     @Column(name = "student_name", insertable = false, updatable = false)
     private String studentName;
     @Column(name = "course_name", insertable = false, updatable = false)
