@@ -4,12 +4,11 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-
-import java.nio.charset.StandardCharsets;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
-
-import static org.hibernate.id.PersistentIdentifierGenerator.PK;
 
 public class Main {
     public static void main(String[] args) {
@@ -39,6 +38,26 @@ public class Main {
         System.out.println(purchaseList.getStudentName());
         System.out.println(purchaseList.getCourseName());
         System.out.println(purchaseList.getSubscription());
+        System.out.println(purchaseList.getPrice());
+        System.out.println("-----------------------------------");
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<PurchaseList> query = builder.createQuery(PurchaseList.class);
+        Root<PurchaseList> root = query.from(PurchaseList.class);
+        query.select(root);
+        List<PurchaseList> purchaseLists = session.createQuery(query).getResultList();
+        List<LinkedPurchaseList> linkedPurchaseLists = new ArrayList<>();
+        for (PurchaseList list : purchaseLists){
+            KeyLinkedPurchaseList keyPurchaseList = new KeyLinkedPurchaseList(list.getStudentName(), list.getCourseName());
+            LinkedPurchaseList linkedPurchaseList = new LinkedPurchaseList(
+                    keyPurchaseList,
+                    list.getPrice(),
+                    list.getSubscription()
+            );
+            linkedPurchaseLists.add(linkedPurchaseList);
+            session.save(linkedPurchaseList);
+        }
+        System.out.println(purchaseLists.size());
+        System.out.println(linkedPurchaseLists.size());
         sessionFactory.close();
     }
 }
