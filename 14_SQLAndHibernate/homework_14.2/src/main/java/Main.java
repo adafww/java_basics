@@ -47,9 +47,10 @@ public class Main {
         CriteriaQuery<PurchaseList> query = builder.createQuery(PurchaseList.class);
         Root<PurchaseList> root = query.from(PurchaseList.class);
         query.select(root);
+
         Criteria st = session.createCriteria(Student.class);
-        List<Student> students = st.list();
         Criteria cs = session.createCriteria(Course.class);
+        List<Student> students = st.list();
         List<Course> courses = cs.list();
         List<PurchaseList> purchaseLists = session.createQuery(query).getResultList();
         List<LinkedPurchaseList> linkedPurchaseLists = new ArrayList<>();
