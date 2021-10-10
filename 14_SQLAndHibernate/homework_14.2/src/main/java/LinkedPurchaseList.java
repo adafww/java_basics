@@ -12,9 +12,15 @@ public class LinkedPurchaseList {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id", insertable = false, updatable = false)
     private Course courseId;
-    private int price;
+    private Integer price;
     @Column(name = "subscription_date")
     private Date subscription;
+
+    public LinkedPurchaseList(Key id, Integer price, Date subscription) {
+        this.id = id;
+        this.price = price;
+        this.subscription = subscription;
+    }
 
     public Key getId() {
         return id;

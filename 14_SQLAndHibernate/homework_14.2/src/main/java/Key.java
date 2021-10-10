@@ -5,9 +5,9 @@ import java.util.Objects;
 @Embeddable
 public class Key implements Serializable {
     @Column(name = "student_id")
-    private int studentId;
+    private Integer studentId;
     @Column(name = "course_id")
-    private int courseId;
+    private Integer courseId;
 
     public Key(int studentId, int courseId) {
         this.studentId = studentId;

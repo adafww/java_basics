@@ -5,6 +5,8 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.criterion.Restrictions;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -41,38 +43,27 @@ public class Main {
         System.out.println(purchaseList.getSubscription());
         System.out.println(purchaseList.getPrice());
         System.out.println("-----------------------------------");
-        //session.beginTransaction();
-
+        session.beginTransaction();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<PurchaseList> query = builder.createQuery(PurchaseList.class);
         Root<PurchaseList> root = query.from(PurchaseList.class);
         query.select(root);
-
-        Criteria st = session.createCriteria(Student.class);
-        Criteria cs = session.createCriteria(Course.class);
-        List<Student> students = st.list();
-        List<Course> courses = cs.list();
+        List<Course> courses = session.createCriteria(Course.class).list();
+        List<Student> students = session.createCriteria(Student.class).list();
         List<PurchaseList> purchaseLists = session.createQuery(query).getResultList();
-        List<LinkedPurchaseList> linkedPurchaseLists = new ArrayList<>();
         for (PurchaseList list : purchaseLists){
-            LinkedPurchaseList linkedPurchaseList = new LinkedPurchaseList();
-            linkedPurchaseList.setStudentId(
-                students.stream().filter(a -> a.getName().equals(list.getStudentName())).toList().get(0)
+            Key key = new Key(
+                    students.stream().filter(a -> a.getName().equals(list.getStudentName())).toList().get(0).getId(),
+                    courses.stream().filter(b -> b.getName().equals(list.getCourseName())).toList().get(0).getId()
             );
-            linkedPurchaseList.setCourseId(
-                courses.stream().filter(b -> b.getName().equals(list.getCourseName())).toList().get(0)
+            LinkedPurchaseList linkedPurchaseList = new LinkedPurchaseList(
+                    key,
+                    list.getPrice(),
+                    list.getSubscription()
             );
-            linkedPurchaseList.setPrice(list.getPrice());
-            linkedPurchaseList.setSubscription(list.getSubscription());
-
-            linkedPurchaseLists.add(linkedPurchaseList);
             session.save(linkedPurchaseList);
         }
-
-        //session.getTransaction().commit();
-        System.out.println(purchaseLists.size());
-        System.out.println(linkedPurchaseLists.size());
-
+        session.getTransaction().commit();
         sessionFactory.close();
     }
 }
