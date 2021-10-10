@@ -1,3 +1,4 @@
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -40,24 +41,37 @@ public class Main {
         System.out.println(purchaseList.getSubscription());
         System.out.println(purchaseList.getPrice());
         System.out.println("-----------------------------------");
+        //session.beginTransaction();
+
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<PurchaseList> query = builder.createQuery(PurchaseList.class);
         Root<PurchaseList> root = query.from(PurchaseList.class);
         query.select(root);
+        Criteria st = session.createCriteria(Student.class);
+        List<Student> students = st.list();
+        Criteria cs = session.createCriteria(Course.class);
+        List<Course> courses = cs.list();
         List<PurchaseList> purchaseLists = session.createQuery(query).getResultList();
         List<LinkedPurchaseList> linkedPurchaseLists = new ArrayList<>();
         for (PurchaseList list : purchaseLists){
-            KeyLinkedPurchaseList keyPurchaseList = new KeyLinkedPurchaseList(list.getStudentName(), list.getCourseName());
-            LinkedPurchaseList linkedPurchaseList = new LinkedPurchaseList(
-                    keyPurchaseList,
-                    list.getPrice(),
-                    list.getSubscription()
+            LinkedPurchaseList linkedPurchaseList = new LinkedPurchaseList();
+            linkedPurchaseList.setStudentId(
+                students.stream().filter(a -> a.getName().equals(list.getStudentName())).toList().get(0)
             );
+            linkedPurchaseList.setCourseId(
+                courses.stream().filter(b -> b.getName().equals(list.getCourseName())).toList().get(0)
+            );
+            linkedPurchaseList.setPrice(list.getPrice());
+            linkedPurchaseList.setSubscription(list.getSubscription());
+
             linkedPurchaseLists.add(linkedPurchaseList);
             session.save(linkedPurchaseList);
         }
+
+        //session.getTransaction().commit();
         System.out.println(purchaseLists.size());
         System.out.println(linkedPurchaseLists.size());
+
         sessionFactory.close();
     }
 }

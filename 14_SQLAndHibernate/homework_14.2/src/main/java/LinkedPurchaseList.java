@@ -5,49 +5,39 @@ import java.util.Date;
 @Table(name = "LinkedPurchaseList")
 public class LinkedPurchaseList {
     @EmbeddedId
-    private KeyLinkedPurchaseList id;
-
-    @Column(name = "student_name", insertable = false, updatable = false)
-    private String studentName;
-
-    @Column(name = "course_name", insertable = false, updatable = false)
-    private String courseName;
+    private Key id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
+    private Student studentId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    private Course courseId;
     private int price;
     @Column(name = "subscription_date")
     private Date subscription;
 
-    public LinkedPurchaseList(KeyLinkedPurchaseList id, int price, Date subscription) {
-        this.id = id;
-        this.price = price;
-        this.subscription = subscription;
-    }
-
-    public LinkedPurchaseList() {
-
-    }
-
-    public KeyLinkedPurchaseList getId() {
+    public Key getId() {
         return id;
     }
 
-    public void setId(KeyLinkedPurchaseList id) {
+    public void setId(Key id) {
         this.id = id;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public Student getStudentId() {
+        return studentId;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public Course getCourseId() {
+        return courseId;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setCourseId(Course courseId) {
+        this.courseId = courseId;
     }
 
     public int getPrice() {
@@ -64,5 +54,15 @@ public class LinkedPurchaseList {
 
     public void setSubscription(Date subscription) {
         this.subscription = subscription;
+    }
+
+    public LinkedPurchaseList(Key id, int price, Date subscription) {
+        this.id = id;
+        this.price = price;
+        this.subscription = subscription;
+    }
+
+    public LinkedPurchaseList() {
+
     }
 }
