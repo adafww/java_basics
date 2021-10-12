@@ -27,19 +27,8 @@ public class ImageResizer implements Runnable{
                 int newHeight = (int) Math.round(
                         image.getHeight() / (image.getWidth() / (double) newWidth)
                 );
-                BufferedImage newImage = new BufferedImage(
-                        newWidth, newHeight, BufferedImage.TYPE_INT_RGB
-                );
 
-                int widthStep = image.getWidth() / newWidth;
-                int heightStep = image.getHeight() / newHeight;
-
-                for (int x = 0; x < newWidth; x++) {
-                    for (int y = 0; y < newHeight; y++) {
-                        int rgb = image.getRGB(x * widthStep, y * heightStep);
-                        newImage.setRGB(x, y, rgb);
-                    }
-                }
+                BufferedImage newImage = resize(image, newWidth, newHeight);
 
                 File newFile = new File(dstFolder + "/" + file.getName());
                 ImageIO.write(newImage, "jpg", newFile);
@@ -48,5 +37,12 @@ public class ImageResizer implements Runnable{
             ex.printStackTrace();
         }
         System.out.println("!");
+    }
+    public static BufferedImage resize(BufferedImage src, int targetWidth, int targetHeight){
+        return Scalr.resize(src,
+                Scalr.Method.ULTRA_QUALITY,
+                Scalr.Mode.FIT_EXACT,
+                targetWidth,
+                targetHeight);
     }
 }
