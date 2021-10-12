@@ -1,51 +1,38 @@
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import org.imgscalr.AsyncScalr;
+
 import java.io.File;
 
 public class Main {
+    final static int CORE_COUNT = 8;
 
     public static void main(String[] args) {
-        String srcFolder = "/users/sortedmap/Desktop/src";
-        String dstFolder = "/users/sortedmap/Desktop/dst";
+        String srcFolder = "src_images";
+        String dstFolder = "dst_images";
+        int newWidth = 300;
+        int count = 0;
+        int coreCount = 0;
 
-        File srcDir = new File(srcFolder);
+        boolean first = true;
 
-        long start = System.currentTimeMillis();
+        File[] files = new File(srcFolder).listFiles();
 
-        File[] files = srcDir.listFiles();
+        int onePart = files.length / CORE_COUNT;
+        int residual = files.length % CORE_COUNT;
 
-        try {
-            for (File file : files) {
-                BufferedImage image = ImageIO.read(file);
-                if (image == null) {
-                    continue;
+        for (int i = 0; i < files.length; i++){
+            if(count == onePart || first){
+                if(coreCount == CORE_COUNT - 1){
+                    onePart += residual;
                 }
-
-                int newWidth = 300;
-                int newHeight = (int) Math.round(
-                    image.getHeight() / (image.getWidth() / (double) newWidth)
-                );
-                BufferedImage newImage = new BufferedImage(
-                    newWidth, newHeight, BufferedImage.TYPE_INT_RGB
-                );
-
-                int widthStep = image.getWidth() / newWidth;
-                int heightStep = image.getHeight() / newHeight;
-
-                for (int x = 0; x < newWidth; x++) {
-                    for (int y = 0; y < newHeight; y++) {
-                        int rgb = image.getRGB(x * widthStep, y * heightStep);
-                        newImage.setRGB(x, y, rgb);
-                    }
-                }
-
-                File newFile = new File(dstFolder + "/" + file.getName());
-                ImageIO.write(newImage, "jpg", newFile);
+                File[] images = new File[onePart];
+                System.arraycopy(files, coreCount * count, images, 0, onePart);
+                ImageResizer resizer = new ImageResizer(images, newWidth, dstFolder);
+                new Thread(resizer).start();
+                coreCount++;
+                count = 0;
+                first = false;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            count++;
         }
-
-        System.out.println("Duration: " + (System.currentTimeMillis() - start));
     }
 }
