@@ -1,12 +1,11 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.concurrent.Callable;
 
 import org.imgscalr.Scalr;
 
 
-public class ImageResizer {
+public class ImageResizer implements Runnable{
     private File file;
     private int newWidth;
     private String dstFolder;
@@ -15,7 +14,18 @@ public class ImageResizer {
         this.file = file;
         this.newWidth = newWidth;
         this.dstFolder = dstFolder;
+    }
 
+    public static BufferedImage resize(BufferedImage src, int targetWidth, int targetHeight){
+        return Scalr.resize(src,
+                Scalr.Method.ULTRA_QUALITY,
+                Scalr.Mode.FIT_EXACT,
+                targetWidth,
+                targetHeight);
+    }
+
+    @Override
+    public void run() {
         try {
             BufferedImage image = ImageIO.read(file);
 
@@ -31,13 +41,5 @@ public class ImageResizer {
             ex.printStackTrace();
         }
         System.out.println("!");
-    }
-
-    public static BufferedImage resize(BufferedImage src, int targetWidth, int targetHeight){
-        return Scalr.resize(src,
-                Scalr.Method.ULTRA_QUALITY,
-                Scalr.Mode.FIT_EXACT,
-                targetWidth,
-                targetHeight);
     }
 }

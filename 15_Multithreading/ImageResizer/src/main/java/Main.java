@@ -14,7 +14,8 @@ public class Main {
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(() -> {
             for (int i = 0; i < files.length; i++){
-                new ImageResizer(files[i], newWidth, dstFolder);
+                ImageResizer resizer = new ImageResizer(files[i], newWidth, dstFolder);
+                resizer.run();
             }
         });
     }
