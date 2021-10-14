@@ -1,7 +1,6 @@
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class Main {
 
@@ -12,10 +11,9 @@ public class Main {
 
         File[] files = new File(srcFolder).listFiles();
 
-        ExecutorService service = Executors.newFixedThreadPool(10);
+        ExecutorService service = Executors.newFixedThreadPool(8);
         service.submit(() -> {
-            ImageResizer resizer = new ImageResizer(files, newWidth, dstFolder);
-            resizer.run();
+            new ImageResizer(files, newWidth, dstFolder);
         });
         service.shutdown();
     }

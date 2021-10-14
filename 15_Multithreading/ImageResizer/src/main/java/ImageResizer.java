@@ -3,20 +3,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import org.imgscalr.Scalr;
 
-
-public class ImageResizer implements Runnable{
-    private File[] files;
-    private int newWidth;
-    private String dstFolder;
-
+public class ImageResizer {
     public ImageResizer(File[] files, int newWidth, String dstFolder) {
-        this.files = files;
-        this.newWidth = newWidth;
-        this.dstFolder = dstFolder;
-    }
-
-    @Override
-    public void run(){
         try {
             for (File file : files) {
                 BufferedImage image = ImageIO.read(file);
@@ -37,7 +25,6 @@ public class ImageResizer implements Runnable{
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
     public static BufferedImage resize(BufferedImage src, int targetWidth, int targetHeight){
         return Scalr.resize(src,
