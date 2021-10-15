@@ -12,9 +12,7 @@ public class Main {
         File[] files = new File(srcFolder).listFiles();
 
         ExecutorService service = Executors.newFixedThreadPool(8);
-        service.submit(() -> {
-            new ImageResizer(files, newWidth, dstFolder);
-        });
+        service.submit(new ImageResizer(files, newWidth, dstFolder));
         service.shutdown();
     }
 }
