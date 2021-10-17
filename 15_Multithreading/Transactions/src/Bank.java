@@ -1,10 +1,17 @@
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Random;
 
 public class Bank {
 
-    private Map<String, Account> accounts;
+    private Hashtable<String, Account> accounts;
     private final Random random = new Random();
+    private static final long BAN = -999_999_999;
+
+    public Bank(Hashtable<String, Account> accounts) {
+        this.accounts = accounts;
+    }
 
     public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
         throws InterruptedException {
@@ -12,24 +19,38 @@ public class Bank {
         return random.nextBoolean();
     }
 
-    /**
-     * TODO: реализовать метод. Метод переводит деньги между счетами. Если сумма транзакции > 50000,
-     * то после совершения транзакции, она отправляется на проверку Службе Безопасности – вызывается
-     * метод isFraud. Если возвращается true, то делается блокировка счетов (как – на ваше
-     * усмотрение)
-     */
-    public void transfer(String fromAccountNum, String toAccountNum, long amount) {
+    public synchronized void transfer(String fromAccountNum, String toAccountNum, long amount)
+        throws InterruptedException {
+        if (!fromAccountNum.equals(toAccountNum) && accounts.get(fromAccountNum).getMoney() >= amount){
+            boolean swchAmount;
+            if(amount < 50_000){
+                swchAmount = true;
+            }else swchAmount = !isFraud(fromAccountNum, toAccountNum, amount);
 
+            if(swchAmount){
+                Account account = new Account();
+                account.setMoney(accounts.get(fromAccountNum).getMoney() - amount);
+                account.setAccNumber(fromAccountNum);
+                accounts.put(fromAccountNum, account);
+                account.setMoney(accounts.get(toAccountNum).getMoney() + amount);
+                account.setAccNumber(toAccountNum);
+                accounts.put(toAccountNum, account);
+            }else {
+                Account accountBan = new Account();
+                accountBan.setMoney(BAN);
+                accountBan.setAccNumber(fromAccountNum);
+                accounts.put(fromAccountNum, accountBan);
+                accountBan.setMoney(BAN);
+                accountBan.setAccNumber(toAccountNum);
+                accounts.put(toAccountNum, accountBan);
+            }
+        }
     }
 
-    /**
-     * TODO: реализовать метод. Возвращает остаток на счёте.
-     */
     public long getBalance(String accountNum) {
-        return 0;
+
+        return accounts.get(accountNum).getMoney();
     }
 
-    public long getSumAllAccounts() {
-        return 0;
-    }
+    public long getSumAllAccounts() {return 0;}
 }

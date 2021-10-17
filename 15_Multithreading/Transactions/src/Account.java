@@ -1,5 +1,11 @@
 public class Account {
 
+    public Account(long money, String accNumber) {
+        this.money = money;
+        this.accNumber = accNumber;
+    }
+    public Account(){}
+
     private long money;
     private String accNumber;
 
