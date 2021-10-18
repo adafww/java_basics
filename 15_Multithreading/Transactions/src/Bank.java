@@ -19,7 +19,7 @@ public class Bank {
         return random.nextBoolean();
     }
 
-    public synchronized void transfer(String fromAccountNum, String toAccountNum, long amount)
+    public void transfer(String fromAccountNum, String toAccountNum, long amount)
         throws InterruptedException {
         if (!fromAccountNum.equals(toAccountNum) && accounts.get(fromAccountNum).getMoney() >= amount){
             boolean swchAmount;
@@ -31,18 +31,26 @@ public class Bank {
                 Account account = new Account();
                 account.setMoney(accounts.get(fromAccountNum).getMoney() - amount);
                 account.setAccNumber(fromAccountNum);
-                accounts.put(fromAccountNum, account);
+                synchronized(accounts){
+                    accounts.put(fromAccountNum, account);
+                }
                 account.setMoney(accounts.get(toAccountNum).getMoney() + amount);
                 account.setAccNumber(toAccountNum);
-                accounts.put(toAccountNum, account);
+                synchronized (accounts){
+                    accounts.put(toAccountNum, account);
+                }
             }else {
                 Account accountBan = new Account();
                 accountBan.setMoney(BAN);
                 accountBan.setAccNumber(fromAccountNum);
-                accounts.put(fromAccountNum, accountBan);
+                synchronized (accounts){
+                    accounts.put(fromAccountNum, accountBan);
+                }
                 accountBan.setMoney(BAN);
                 accountBan.setAccNumber(toAccountNum);
-                accounts.put(toAccountNum, accountBan);
+                synchronized (accounts){
+                    accounts.put(toAccountNum, accountBan);
+                }
             }
         }
     }
