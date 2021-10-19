@@ -23,15 +23,25 @@ public class Bank {
         throws InterruptedException {
         Account fromAccount = accounts.get(fromAccountNum);
         Account toAccount = accounts.get(toAccountNum);
-
+        Account lowSyncAccount = null;
+        Account topSyncAccount = null;
+        if(Long.parseLong(fromAccount.getAccNumber()) > Long.parseLong(toAccount.getAccNumber())){
+            lowSyncAccount = toAccount;
+            topSyncAccount = fromAccount;
+        }
+        if(Long.parseLong(fromAccount.getAccNumber()) < Long.parseLong(toAccount.getAccNumber())){
+            lowSyncAccount = fromAccount;
+            topSyncAccount = toAccount;
+        }
         if (!fromAccountNum.equals(toAccountNum) && fromAccount.getMoney() >= amount){
             boolean swchAmount;
             if(amount < 50_000){
                 swchAmount = true;
             }else swchAmount = !isFraud(fromAccountNum, toAccountNum, amount);
             if(swchAmount){
-                synchronized (fromAccount){
-                    synchronized (toAccount){
+
+                synchronized (lowSyncAccount){
+                    synchronized (topSyncAccount){
                         accounts.put(fromAccount.getAccNumber(),
                                 new Account(fromAccount.getMoney() - amount, fromAccount.getAccNumber()));
                         accounts.put(toAccount.getAccNumber(),
@@ -39,8 +49,8 @@ public class Bank {
                     }
                 }
             }else {
-                synchronized (fromAccount){
-                    synchronized (toAccount){
+                synchronized (lowSyncAccount){
+                    synchronized (topSyncAccount){
                         accounts.put(fromAccount.getAccNumber(),
                                 new Account(BAN, fromAccount.getAccNumber()));
                         accounts.put(toAccount.getAccNumber(),
