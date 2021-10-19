@@ -21,35 +21,31 @@ public class Bank {
 
     public void transfer(String fromAccountNum, String toAccountNum, long amount)
         throws InterruptedException {
-        if (!fromAccountNum.equals(toAccountNum) && accounts.get(fromAccountNum).getMoney() >= amount){
+        Account fromAccount = accounts.get(fromAccountNum);
+        Account toAccount = accounts.get(toAccountNum);
+
+        if (!fromAccountNum.equals(toAccountNum) && fromAccount.getMoney() >= amount){
             boolean swchAmount;
             if(amount < 50_000){
                 swchAmount = true;
             }else swchAmount = !isFraud(fromAccountNum, toAccountNum, amount);
-
             if(swchAmount){
-                Account account = new Account();
-                account.setMoney(accounts.get(fromAccountNum).getMoney() - amount);
-                account.setAccNumber(fromAccountNum);
-                synchronized(accounts){
-                    accounts.put(fromAccountNum, account);
-                }
-                account.setMoney(accounts.get(toAccountNum).getMoney() + amount);
-                account.setAccNumber(toAccountNum);
-                synchronized (accounts){
-                    accounts.put(toAccountNum, account);
+                synchronized (fromAccount){
+                    synchronized (toAccount){
+                        accounts.put(fromAccount.getAccNumber(),
+                                new Account(fromAccount.getMoney() - amount, fromAccount.getAccNumber()));
+                        accounts.put(toAccount.getAccNumber(),
+                                new Account(toAccount.getMoney() + amount, toAccount.getAccNumber()));
+                    }
                 }
             }else {
-                Account accountBan = new Account();
-                accountBan.setMoney(BAN);
-                accountBan.setAccNumber(fromAccountNum);
-                synchronized (accounts){
-                    accounts.put(fromAccountNum, accountBan);
-                }
-                accountBan.setMoney(BAN);
-                accountBan.setAccNumber(toAccountNum);
-                synchronized (accounts){
-                    accounts.put(toAccountNum, accountBan);
+                synchronized (fromAccount){
+                    synchronized (toAccount){
+                        accounts.put(fromAccount.getAccNumber(),
+                                new Account(BAN, fromAccount.getAccNumber()));
+                        accounts.put(toAccount.getAccNumber(),
+                                new Account(BAN, toAccount.getAccNumber()));
+                    }
                 }
             }
         }
