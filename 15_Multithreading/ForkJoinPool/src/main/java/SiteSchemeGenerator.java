@@ -27,7 +27,7 @@ public class SiteSchemeGenerator extends RecursiveAction {
     }
 
     @Override
-    protected synchronized void compute() {
+    protected void compute() {
         int tabCount = 0;
         List<String> list = null;
         try {
