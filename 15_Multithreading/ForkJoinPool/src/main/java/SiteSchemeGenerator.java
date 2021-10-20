@@ -1,13 +1,14 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
+
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
 
@@ -36,26 +37,18 @@ public class SiteSchemeGenerator extends RecursiveAction {
             e.printStackTrace();
         }
         for (String s : list) {
-            if (isCheck(s, listFinal)) {
-                tabCount++;
-                try {
+            try {
+                if (isCheck(s, listFinal)) {
+                    tabCount++;
                     Thread.sleep(100 + (long) (Math.random() * ((150 - 100) + 1)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //listFinal.add(tab(s, tabCount));
-                try {
+                    //listFinal.add(tab(s, tabCount));
                     Files.writeString(Paths.get(directory), (tab(s, tabCount) + "\n"), StandardOpenOption.APPEND);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(tab(s, tabCount));
-                //System.out.println(listFinal.size());
-                try {
                     new SiteSchemeGenerator(s, regex).fork();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println(tab(s, tabCount));
+                    //System.out.println(listFinal.size());
                 }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
