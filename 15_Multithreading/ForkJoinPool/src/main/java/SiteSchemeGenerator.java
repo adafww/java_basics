@@ -27,7 +27,7 @@ public class SiteSchemeGenerator extends RecursiveAction {
     }
 
     @Override
-    protected void compute() {
+    protected synchronized void compute() {
         int tabCount = 0;
         List<String> list = null;
         try {
@@ -43,14 +43,14 @@ public class SiteSchemeGenerator extends RecursiveAction {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                listFinal.add(tab(s, tabCount));
+                //listFinal.add(tab(s, tabCount));
                 try {
                     Files.writeString(Paths.get(directory), (tab(s, tabCount) + "\n"), StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 System.out.println(tab(s, tabCount));
-                System.out.println(listFinal.size());
+                //System.out.println(listFinal.size());
                 try {
                     new SiteSchemeGenerator(s, regex).fork();
                 } catch (IOException e) {
