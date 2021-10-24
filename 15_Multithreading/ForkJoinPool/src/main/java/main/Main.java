@@ -1,13 +1,4 @@
-import org.jsoup.Connection;
-import org.jsoup.HttpStatusException;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+package main;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,10 +6,12 @@ import java.util.concurrent.ForkJoinPool;
 
 public class Main {
     //private static List<String> listFinal = new ArrayList<>();
-    private static FileWriter fw;
+    //private static FileWriter fw;
+
     private static final String url = "https://skillbox.ru/";
     private static final String regex = "(" + url + ".+)(\\/)";
 
+    /*
     static {
         try {
             fw = new FileWriter("data/text.txt");
@@ -29,11 +22,15 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+     */
+
+    public static void main(String[] args) {
 
         SiteSchemeGenerator schemeGenerator = new SiteSchemeGenerator(url, regex);
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         forkJoinPool.invoke(schemeGenerator);
+
+        //ListUrls.getAllStrings().stream().map(a -> a.trim()).toList().forEach(System.out::println);
 
         /*
         listFinal.add(url);
