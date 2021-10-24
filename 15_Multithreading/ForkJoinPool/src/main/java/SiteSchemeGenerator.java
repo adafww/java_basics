@@ -33,7 +33,7 @@ public class SiteSchemeGenerator extends RecursiveAction {
                     Files.writeString(Paths.get(directory), (tab(s, tabCount) + "\n"), StandardOpenOption.APPEND);
                     new SiteSchemeGenerator(s, regex).fork();
                     tabCount++;
-                    System.out.println(Files.readAllLines(Paths.get(directory)).size());
+                    //System.out.println(Files.readAllLines(Paths.get(directory)).size());
                 }
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
