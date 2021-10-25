@@ -22,7 +22,7 @@ public class SiteSchemeGenerator extends RecursiveAction {
     }
 
     @Override
-    protected synchronized void compute() {
+    protected void compute() {
         for (String s : list){
             ListUrls.add(s);
         }
