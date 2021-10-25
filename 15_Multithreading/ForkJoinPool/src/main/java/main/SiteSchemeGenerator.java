@@ -24,13 +24,14 @@ public class SiteSchemeGenerator extends RecursiveAction {
     @Override
     protected void compute() {
         for (String s : list){
-            ListUrls.add(s);
+            if(!ListUrls.contains(s.trim())){
+                ListUrls.add(s);
+                new SiteSchemeGenerator(s).fork();
+            }
         }
     }
 
-
     private static String tab(String str, int count){
-
         return "\t".repeat(Math.max(0, count)) + str;
     }
 }

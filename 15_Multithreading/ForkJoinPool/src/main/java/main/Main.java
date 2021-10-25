@@ -1,5 +1,10 @@
 package main;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.concurrent.ForkJoinPool;
 
 public class Main {
@@ -8,13 +13,18 @@ public class Main {
     private static final String regex = "(" + url + ".+)(\\/)";
 
     public static void main(String[] args) {
-
+        ListUrls.add(url);
         Regex.setString(regex);
         SiteSchemeGenerator schemeGenerator = new SiteSchemeGenerator(url);
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         forkJoinPool.invoke(schemeGenerator);
+        ListUrls.getList().forEach(System.out::println);
+        try {
+            Files.write(Paths.get("data/text.txt"), ListUrls.getList(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        //ListUrls.getAllStrings().stream().map(a -> a.trim()).toList().forEach(System.out::println);
     }
 }
 
