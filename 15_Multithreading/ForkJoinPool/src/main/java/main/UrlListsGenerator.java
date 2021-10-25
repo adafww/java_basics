@@ -14,7 +14,7 @@ public class UrlListsGenerator {
 
     private List<String> list1;
 
-    UrlListsGenerator(String url, String regex) throws IOException {
+    UrlListsGenerator(String url) throws IOException {
         Document document = Jsoup.connect(url).maxBodySize(0).get();
         ArrayList<String> list = new ArrayList<>();
         document.select("a[href]").stream().forEach(a -> list.add((a.attr("abs:href"))));
@@ -23,7 +23,7 @@ public class UrlListsGenerator {
         list.addAll(set);
         list1 = list
                 .stream()
-                .filter(a -> Pattern.matches(regex, a))
+                .filter(a -> Pattern.matches(Regex.getString(), a))
                 .toList();
     }
 
