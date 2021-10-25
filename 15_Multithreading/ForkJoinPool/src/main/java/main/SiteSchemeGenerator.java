@@ -14,11 +14,6 @@ public class SiteSchemeGenerator extends RecursiveAction {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            Thread.sleep(100 + (long) (Math.random() * ((150 - 100) + 1)));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -26,7 +21,7 @@ public class SiteSchemeGenerator extends RecursiveAction {
         for (String s : list){
             if(!ListUrls.contains(s.trim())){
                 ListUrls.add(s);
-                new SiteSchemeGenerator(s).fork();
+                new SiteSchemeGenerator(s).compute();
             }
         }
     }
