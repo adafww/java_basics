@@ -10,8 +10,8 @@ public class ListUrls {
 
     public static void add(String str){
         list.add(str);
-        //System.out.println(list.size() + " - " + str);
-        System.out.println(str);
+        System.out.println(list.size() + " - " + str);
+        //System.out.println(str);
     }
     public static boolean contains(String str){
         return list.contains(str);

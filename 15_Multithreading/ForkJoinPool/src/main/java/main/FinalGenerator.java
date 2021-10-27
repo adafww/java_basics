@@ -18,14 +18,8 @@ public class FinalGenerator extends RecursiveAction {
     protected void compute() {
         for (String s : ListFiles.getList()){
             if(check(s, EmtyList.getList())){
-                if(tabCount == 0) {
 
-                    EmtyList.add(tab(s, tabCount));
-                    System.out.println(tab(s, tabCount));
-                    //System.out.println("size: " + EmtyList.getSize() + " count: " + strings(s).length + " strCount: " + strings(s)[count - 1] + " preStr: " + preStr);
-                    new FinalGenerator(++count, ++tabCount, s).compute();
-
-                }else if(coincidence(preStr, s) == count && strings(preStr).length == count){
+                if(coincidence(preStr, s) == count && strings(preStr).length == count){
 
                     count++;
                     tabCount++;
