@@ -25,8 +25,4 @@ public class SiteSchemeGenerator extends RecursiveAction {
             }
         }
     }
-
-    private static String tab(String str, int count){
-        return "\t".repeat(Math.max(0, count)) + str;
-    }
 }
