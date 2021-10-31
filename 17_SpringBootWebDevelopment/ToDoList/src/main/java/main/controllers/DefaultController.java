@@ -1,4 +1,4 @@
-package main;
+package main.controllers;
 import persistence.Storage;
 import org.springframework.http.HttpStatus;
 import persistence.Do;
