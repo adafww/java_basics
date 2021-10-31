@@ -1,6 +1,7 @@
 package main;
+import persistence.Storage;
 import org.springframework.http.HttpStatus;
-import response.Do;
+import persistence.Do;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @RestController
 public class DefaultController {
+    private int id;
+
     @RequestMapping("/")
     public String index(){
         return (new Date().toString());
@@ -28,8 +31,8 @@ public class DefaultController {
         return Storage.getAllToDoList().size();
     }
 
-    @RequestMapping(value = "/todolist/", params = {"id", "del"}, method = RequestMethod.GET)
-    public ResponseEntity get(@RequestParam("id") int id, @RequestParam("del") boolean del){
+    @GetMapping(value = "/todolist/{id}/{del}")
+    public ResponseEntity get(@PathVariable int id, @PathVariable boolean del){
         Do d1 = Storage.getToDoString(id);
         if(d1 == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

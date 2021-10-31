@@ -1,5 +1,6 @@
-package main;
+package services;
 
+import main.Main;
 import org.springframework.boot.SpringApplication;
 
 public class ToDoList implements Runnable{
