@@ -1,17 +1,21 @@
-package main.controllers;
-import persistence.Storage;
+package main.resources;
+import main.persistence.ToDo;
+import main.persistence.ToDoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import persistence.Do;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 public class DefaultController {
-    private int id;
+
+    @Autowired
+    private ToDoRepository toDoRepository;
 
     @RequestMapping("/")
     public String index(){
@@ -19,27 +23,30 @@ public class DefaultController {
     }
 
     @GetMapping("/todolist/")
-    public List<Do> list(){
-
-        return Storage.getAllToDoList();
+    public List<ToDo> list(){
+        Iterable<ToDo> toDoIterable = toDoRepository.findAll();
+        ArrayList<ToDo> toDo = new ArrayList<>();
+        for (ToDo toDo1 : toDoIterable){
+            toDo.add(toDo1);
+        }
+        return toDo;
     }
 
     @PostMapping("/todolist/")
-    public int add(Do do1){
-
-        Storage.add(do1);
-        return Storage.getAllToDoList().size();
+    public int add(ToDo todo){
+        ToDo newToDo = toDoRepository.save(todo);
+        return newToDo.getId();
     }
 
     @GetMapping(value = "/todolist/{id}/{del}")
     public ResponseEntity get(@PathVariable int id, @PathVariable boolean del){
-        Do d1 = Storage.getToDoString(id);
+        ToDo d1 = toDoRepository.findById(id).get();
         if(d1 == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }else if(del == false){
             return new ResponseEntity(d1, HttpStatus.OK);
         }else {
-            Storage.deleteToDoString(id);
+            toDoRepository.deleteById(id);
             return new ResponseEntity("Deleted", HttpStatus.OK);
         }
     }

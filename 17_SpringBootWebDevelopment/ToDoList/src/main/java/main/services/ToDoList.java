@@ -1,5 +1,4 @@
-package services;
-
+package main.services;
 import main.Main;
 import org.springframework.boot.SpringApplication;
 
