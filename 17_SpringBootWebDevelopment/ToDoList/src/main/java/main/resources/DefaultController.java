@@ -1,12 +1,9 @@
 package main.resources;
 import main.persistence.ToDo;
 import main.persistence.ToDoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,8 +11,11 @@ import java.util.List;
 @RestController
 public class DefaultController {
 
-    @Autowired
-    private ToDoRepository toDoRepository;
+    private final ToDoRepository toDoRepository;
+
+    public DefaultController(ToDoRepository toDoRepository) {
+        this.toDoRepository = toDoRepository;
+    }
 
     @RequestMapping("/")
     public String index(){
@@ -50,8 +50,6 @@ public class DefaultController {
             return new ResponseEntity("Deleted", HttpStatus.OK);
         }
     }
-
-
 
     @RequestMapping(value = "/calculator", params = {"a", "b", "type"}, method = RequestMethod.GET)
     public int calculate(@RequestParam("a") int a,
