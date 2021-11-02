@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+</head>
+<body>
+<h1>To Do List (<span th:text="${toDoCount}">0</span>)</h1>
+<div id="book-list">
+    <div th:each="to : ${toDo}">
+        <a th:text="${to.getToDoString()}"></a>
+    </div>
+</div>
+</body>
+</html>

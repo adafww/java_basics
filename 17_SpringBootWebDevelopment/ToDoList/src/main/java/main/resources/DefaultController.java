@@ -3,6 +3,7 @@ import main.persistence.ToDo;
 import main.persistence.ToDoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,11 +16,6 @@ public class DefaultController {
 
     public DefaultController(ToDoRepository toDoRepository) {
         this.toDoRepository = toDoRepository;
-    }
-
-    @RequestMapping("/")
-    public String index(){
-        return (new Date().toString());
     }
 
     @GetMapping("/todolist/")
