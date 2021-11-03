@@ -10,6 +10,15 @@ public class ToDo {
     @Column(name = "name")
     private String toDoString;
 
+    public ToDo(int id, String toDoString) {
+        this.id = id;
+        this.toDoString = toDoString;
+    }
+
+    public ToDo() {
+
+    }
+
     public int getId() {
         return id;
     }

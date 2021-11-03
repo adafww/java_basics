@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>To Do List</title>
+
 </head>
 <body>
 <h1>To Do List (<span th:text="${toDoCount}">0</span>)</h1>
-<div id="book-list">
+<form th:action="@{/todo}" th:object="${toDoAdd}" method="post">
+    <p>Id: <input type="text" th:field="*{id}" /></p>
+    <p>String: <input type="text" th:field="*{toDoString}" /></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset" /></p>
     <div th:each="to : ${toDo}">
+        <a th:text="${to.getId()} + ')'"></a>
         <a th:text="${to.getToDoString()}"></a>
+        <a th:href="|/todolist/${to.getId()}/true/|" th:text="x"></a>
     </div>
-</div>
+</form>
 </body>
 </html>
