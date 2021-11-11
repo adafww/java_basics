@@ -1,34 +1,18 @@
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mongodb.BasicDBObject;
-
-import com.mongodb.DBCursor;
 import com.mongodb.client.*;
-
 import com.opencsv.CSVReader;
-import org.bson.BsonDocument;
 import org.bson.Document;
-
 import java.io.FileReader;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
-import com.google.gson.Gson;
 
 public class Main {
-
     public static void main(String[] args) {
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("local");
-
         MongoCollection<Document> collection = database.getCollection("Students");
-
-        collection.drop();
-
         List<Document> studentDoc = new ArrayList<>();
         String csvFilename = "data/mongo.csv";
         String[] csvRow = null;
@@ -36,7 +20,6 @@ public class Main {
         collection.drop();
         try {
             CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
-
             List<String[]> csvAllRows = csvReader.readAll();
             for (Object object : csvAllRows) {
                 csvRow = (String[]) object;
