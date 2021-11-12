@@ -34,6 +34,7 @@ public class Main {
 
         //collection.drop();
 
+
         while (true){
             String[] input = scanner.nextLine().split(" ");
             if (input[0].equals("ВЫХОД") && input.length == 1) {
