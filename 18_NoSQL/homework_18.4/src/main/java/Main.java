@@ -14,7 +14,9 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.awt.image.LookupOp;
+import java.beans.Expression;
 import java.lang.invoke.MethodHandles;
+import java.nio.file.Path;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +52,16 @@ public class Main {
                 break;
                 //СТАТИСТИКА_ТОВАРОВ
             }else if(input[0].equals("") && input.length == 1){
+                String str3 = "$products_list.count";
                 collectionMarkets.aggregate(Arrays.asList(
-                        lookup("productsDb", "marketName", "markets", "products_list")
+                        lookup("productsDb", "marketName", "markets", "products_list"),
+                        group("$marketName",
+                                Accumulators.avg("average", str3),
+                                Accumulators.max("max", str3),
+                                Accumulators.min("min", str3),
+                                Accumulators.sum("sum", str3)
+                        )
+
                 )).forEach(printBlock);
             }else if(input[0].equals("1") && input.length == 1){
                 collectionProducts.find().forEach((Consumer<Document>) document -> {
@@ -65,12 +75,12 @@ public class Main {
 
                 String[] str;
                 ArrayList<String> str1 = new ArrayList<>();
-                if (0 != Integer.parseInt(String.valueOf(collectionProducts.count(Filters.eq("productName", input[1]))))){
+                if (0 != Integer.parseInt(String.valueOf(collectionProducts.count(Filters.eq("markets", input[1]))))){
                     str = (((JsonObject) JsonParser
                             .parseString(new Document(collectionProducts
-                                    .find(Filters.eq("productName", input[1]))
-                                    .first())
-                                    .toJson()))
+                            .find(Filters.eq("productName", input[1]))
+                            .first())
+                            .toJson()))
                             .get("markets"))
                             .toString()
                             .split("\\[\\\"*, \"|\", \"|\"]");
