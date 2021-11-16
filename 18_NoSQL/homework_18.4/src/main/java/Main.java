@@ -5,15 +5,15 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.*;
+import netscape.javascript.JSObject;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.awt.image.LookupOp;
 import java.lang.invoke.MethodHandles;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -50,7 +50,7 @@ public class Main {
                 //СТАТИСТИКА_ТОВАРОВ
             }else if(input[0].equals("") && input.length == 1){
                 collectionMarkets.aggregate(Arrays.asList(
-                        lookup("products", "products", "marketName", "products_list")
+                        lookup("productsDb", "marketName", "markets", "products_list")
                 )).forEach(printBlock);
             }else if(input[0].equals("1") && input.length == 1){
                 collectionProducts.find().forEach((Consumer<Document>) document -> {
@@ -61,10 +61,29 @@ public class Main {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("ВЫСТАВИТЬ_ТОВАР") && input.length == 3){
+                Document query = new Document().append("productName",  input[1]);
+                List<String> strings = new ArrayList<String>();
+                Document update = new Document();
+                Document setData = new Document();
+                strings.add(input[2]);
+                setData.append("markets", strings);
+                update.append("$set", setData);
+                /*
+                Bson updates = Updates.combine(
+                        Updates.set(new Document("markets", strings)));
+                        //Updates.addToSet("genres", "Sports"),
+
+                 */
+                UpdateOptions options = new UpdateOptions().upsert(true);
+                collectionProducts.updateOne(query, update);
+
+                /*
                 collectionProducts.insertOne(
                         new Document("productName", input[1])
-                                .append("markets", new Document("marketName", input[2]))
+                                .append("markets", new Arrays[]{input[2]})
                 );
+
+                 */
                 collectionProducts.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
