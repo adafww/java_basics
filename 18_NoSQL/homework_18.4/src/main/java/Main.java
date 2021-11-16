@@ -51,7 +51,7 @@ public class Main {
                 //СТАТИСТИКА_ТОВАРОВ
             }else if(input[0].equals("") && input.length == 1){
                 collectionMarkets.aggregate(Arrays.asList(
-                        //match(eq("marketName", "Магнит")),
+
                         lookup("productsDb", "marketName", "markets", "products_list")
                         //out("products")
                 )).forEach(printBlock);
