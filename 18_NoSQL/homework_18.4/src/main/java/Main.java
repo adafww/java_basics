@@ -27,9 +27,9 @@ public class Main {
 
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("local");
-        //MongoCollection<Document> collectionMarkets = database.getCollection("marketsDb");
-        //MongoCollection<Document> collectionProducts = database.getCollection("productsDb");
-        MongoCollection<Document> collection = database.getCollection("db");
+        MongoCollection<Document> collectionMarkets = database.getCollection("marketsDb");
+        MongoCollection<Document> collectionProducts = database.getCollection("productsDb");
+        //MongoCollection<Document> collection = database.getCollection("db_18_1");
         Scanner scanner = new Scanner(System.in);
         Block<Document> printBlock = new Block<Document>() {
             @Override
@@ -49,37 +49,36 @@ public class Main {
                 break;
                 //СТАТИСТИКА_ТОВАРОВ
             }else if(input[0].equals("") && input.length == 1){
-                collection.aggregate(Arrays.asList(
-                        match(Filters.eq("markets")),
-                        lookup("products", "markets", "marketName", "products_list")
+                collectionMarkets.aggregate(Arrays.asList(
+                        lookup("products", "products", "marketName", "products_list")
                 )).forEach(printBlock);
             }else if(input[0].equals("1") && input.length == 1){
-                collection.find().forEach((Consumer<Document>) document -> {
+                collectionProducts.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("2") && input.length == 1){
-                collection.find().forEach((Consumer<Document>) document -> {
+                collectionMarkets.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("ВЫСТАВИТЬ_ТОВАР") && input.length == 3){
-                collection.insertOne(new Document("products",
+                collectionProducts.insertOne(
                         new Document("productName", input[1])
                                 .append("markets", new Document("marketName", input[2]))
-                ));
-                collection.find().forEach((Consumer<Document>) document -> {
+                );
+                collectionProducts.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("ДОБАВИТЬ_ТОВАР") && input.length == 3){
-                collection.insertOne(new Document("products", new Document()
+                collectionProducts.insertOne(new Document()
                         .append("productName", input[1])
                         .append("count", Integer.parseInt(input[2]))
-                ));
-                collection.find().forEach((Consumer<Document>) document -> {
+                );
+                collectionProducts.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("ДОБАВИТЬ_МАГАЗИН") && input.length == 2){
-                collection.insertOne(new Document("markets", new Document("marketName", input[1])));
-                collection.find().forEach((Consumer<Document>) document -> {
+                collectionMarkets.insertOne(new Document("marketName", input[1]));
+                collectionMarkets.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }
