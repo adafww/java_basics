@@ -21,16 +21,15 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import static com.mongodb.client.model.Aggregates.*;
-import static com.mongodb.client.model.Filters.eq;
 
 public class Main {
     public static void main(String[] args) {
 
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("local");
-        MongoCollection<Document> collectionMarkets = database.getCollection("marketsDb");
-        MongoCollection<Document> collectionProducts = database.getCollection("productsDb");
-        //MongoCollection<Document> collection = database.getCollection("db_18_1");
+        //MongoCollection<Document> collectionMarkets = database.getCollection("marketsDb");
+        //MongoCollection<Document> collectionProducts = database.getCollection("productsDb");
+        MongoCollection<Document> collection = database.getCollection("db");
         Scanner scanner = new Scanner(System.in);
         Block<Document> printBlock = new Block<Document>() {
             @Override
@@ -50,39 +49,37 @@ public class Main {
                 break;
                 //СТАТИСТИКА_ТОВАРОВ
             }else if(input[0].equals("") && input.length == 1){
-                collectionMarkets.aggregate(Arrays.asList(
-
-                        lookup("productsDb", "marketName", "markets", "products_list")
-                        //out("products")
+                collection.aggregate(Arrays.asList(
+                        match(Filters.eq("markets")),
+                        lookup("products", "markets", "marketName", "products_list")
                 )).forEach(printBlock);
             }else if(input[0].equals("1") && input.length == 1){
-                collectionProducts.find().forEach((Consumer<Document>) document -> {
+                collection.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("2") && input.length == 1){
-                collectionMarkets.find().forEach((Consumer<Document>) document -> {
+                collection.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("ВЫСТАВИТЬ_ТОВАР") && input.length == 3){
-                collectionProducts.insertOne(
+                collection.insertOne(new Document("products",
                         new Document("productName", input[1])
                                 .append("markets", new Document("marketName", input[2]))
-                );
-                collectionProducts.find().forEach((Consumer<Document>) document -> {
+                ));
+                collection.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
-                //ВЫСТАВИТЬ_ТОВАР Вода Магнит
             }else if(input[0].equals("ДОБАВИТЬ_ТОВАР") && input.length == 3){
-                collectionProducts.insertOne(new Document()
+                collection.insertOne(new Document("products", new Document()
                         .append("productName", input[1])
                         .append("count", Integer.parseInt(input[2]))
-                );
-                collectionProducts.find().forEach((Consumer<Document>) document -> {
+                ));
+                collection.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("ДОБАВИТЬ_МАГАЗИН") && input.length == 2){
-                collectionMarkets.insertOne(new Document("marketName", input[1]));
-                collectionMarkets.find().forEach((Consumer<Document>) document -> {
+                collection.insertOne(new Document("markets", new Document("marketName", input[1])));
+                collection.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
             }
