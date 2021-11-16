@@ -1,3 +1,6 @@
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.DBObject;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Aggregates.*;
 
@@ -37,12 +41,9 @@ public class Main {
                 System.out.println(document.toJson());
             }
         };
-
         //collectionMarkets.drop();
         //collectionProducts.drop();
-        //collectionProducts.deleteOne(new BasicDBObject(new Document("productName", "Вода")
-         //       .append("markets", new Document("marketName", "Магнит"))));
-
+        //collectionProducts.deleteOne(new BasicDBObject(new Document("productName", "Вода").append("markets", new Document("marketName", "Магнит"))));
         while (true){
             String[] input = scanner.nextLine().split(" ");
             if (input[0].equals("ВЫХОД") && input.length == 1) {
@@ -61,29 +62,28 @@ public class Main {
                     System.out.println(document.toJson());
                 });
             }else if(input[0].equals("ВЫСТАВИТЬ_ТОВАР") && input.length == 3){
+
+                String[] str;
+                ArrayList<String> str1 = new ArrayList<>();
+                if (0 != Integer.parseInt(String.valueOf(collectionProducts.count(Filters.eq("productName", input[1]))))){
+                    str = (((JsonObject) JsonParser
+                            .parseString(new Document(collectionProducts
+                                    .find(Filters.eq("productName", input[1]))
+                                    .first())
+                                    .toJson()))
+                            .get("markets"))
+                            .toString()
+                            .split("\\[\\\"*, \"|\", \"|\"]");
+                    str1 = (ArrayList<String>) Arrays.stream(str).collect(Collectors.toList());
+                }
                 Document query = new Document().append("productName",  input[1]);
-                List<String> strings = new ArrayList<String>();
                 Document update = new Document();
                 Document setData = new Document();
-                strings.add(input[2]);
-                setData.append("markets", strings);
+                str1.add(input[2]);
+                setData.append("markets", str1);
                 update.append("$set", setData);
-                /*
-                Bson updates = Updates.combine(
-                        Updates.set(new Document("markets", strings)));
-                        //Updates.addToSet("genres", "Sports"),
-
-                 */
                 UpdateOptions options = new UpdateOptions().upsert(true);
-                collectionProducts.updateOne(query, update);
-
-                /*
-                collectionProducts.insertOne(
-                        new Document("productName", input[1])
-                                .append("markets", new Arrays[]{input[2]})
-                );
-
-                 */
+                collectionProducts.updateOne(query, update, options);
                 collectionProducts.find().forEach((Consumer<Document>) document -> {
                     System.out.println(document.toJson());
                 });
