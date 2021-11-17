@@ -1,32 +1,19 @@
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.mongodb.BasicDBObject;
-import com.mongodb.Block;
-import com.mongodb.DBObject;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mongodb.client.model.*;
-import netscape.javascript.JSObject;
-import org.bson.Document;
-import org.bson.conversions.Bson;
-
-import java.awt.image.LookupOp;
-import java.beans.Expression;
-import java.lang.invoke.MethodHandles;
-import java.nio.file.Path;
-import java.sql.Array;
+import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import com.mongodb.Block;
+import java.util.Scanner;
+import org.bson.Document;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static com.mongodb.client.model.Aggregates.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,7 +22,6 @@ public class Main {
         MongoDatabase database = mongoClient.getDatabase("local");
         MongoCollection<Document> collectionMarkets = database.getCollection("marketsDb");
         MongoCollection<Document> collectionProducts = database.getCollection("productsDb");
-        //MongoCollection<Document> collection = database.getCollection("db_18_1");
         Scanner scanner = new Scanner(System.in);
         Block<Document> printBlock = new Block<Document>() {
             @Override
@@ -50,18 +36,22 @@ public class Main {
             String[] input = scanner.nextLine().split(" ");
             if (input[0].equals("ВЫХОД") && input.length == 1) {
                 break;
-                //СТАТИСТИКА_ТОВАРОВ
-            }else if(input[0].equals("") && input.length == 1){
+            }else if(input[0].equals("СТАТИСТИКА_ТОВАРОВ") && input.length == 1){
                 String str3 = "$products_list.count";
+                List cond = new ArrayList();
+                cond.add(new BasicDBObject("$lt", Arrays.asList(str3, 100)));
+                cond.add(1);
+                cond.add(0);
                 collectionMarkets.aggregate(Arrays.asList(
-                        lookup("productsDb", "marketName", "markets", "products_list"),
-                        group("$marketName",
-                                Accumulators.avg("average", str3),
-                                Accumulators.max("max", str3),
+                        Aggregates.lookup("productsDb", "marketName", "markets", "products_list"),
+                        Aggregates.unwind("$products_list"),
+                        Aggregates.group("$marketName",
+                                Accumulators.avg("avg", str3),
                                 Accumulators.min("min", str3),
-                                Accumulators.sum("sum", str3)
+                                Accumulators.max("max", str3),
+                                Accumulators.sum("count100",new BasicDBObject("$cond", cond)),
+                                Accumulators.sum("count",1)
                         )
-
                 )).forEach(printBlock);
             }else if(input[0].equals("1") && input.length == 1){
                 collectionProducts.find().forEach((Consumer<Document>) document -> {
