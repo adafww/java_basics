@@ -42,15 +42,12 @@ public class Loader implements Runnable {
     }
 
     private static String padNumber(int number, int numberLength) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(number);
-        if(builder.length() == numberLength){
-            return builder.toString();
-        }else if(builder.length() == numberLength - 1){
-            return '0' + builder.toString();
-        }else if(builder.length() == 1 && numberLength == 3){
-            return '0' + '0' + builder.toString();
+
+        StringBuilder numberStr = new StringBuilder(Integer.toString(number));
+        int padSize = numberLength - numberStr.length();
+        for (int i = 0; i < padSize; i++) {
+            numberStr.insert(0, '0');
         }
-        return "----";
+        return numberStr.toString();
     }
 }
