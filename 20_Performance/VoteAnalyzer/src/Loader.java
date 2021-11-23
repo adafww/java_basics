@@ -21,8 +21,8 @@ public class Loader {
     private static HashMap<Voter, Integer> voterCounts = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
-        String fileName = "res/data-18M.xml";
         Long usage = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        String fileName = "res/data-18M.xml";
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
         XMLHandler handler = new XMLHandler();
