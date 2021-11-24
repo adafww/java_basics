@@ -24,9 +24,6 @@ public class Loader {
 
         Long usage = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
-        RedisStorage redis = new RedisStorage();
-        redis.init();
-
         String fileName = "res/data-18M.xml";
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
