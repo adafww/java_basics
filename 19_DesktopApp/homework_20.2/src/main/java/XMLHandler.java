@@ -14,7 +14,6 @@ public class XMLHandler extends DefaultHandler {
         voterCounts = new HashMap<>() {
         };
     }*/
-
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         if(qName.equals("voter") && voter == null){
