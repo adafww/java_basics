@@ -6,7 +6,9 @@ public class DBConnection {
 
     private static String dbName = "learn";
     private static String dbUser = "root";
-    private static String dbPass = "ya78yrc8n4w3984";
+    private static String dbPass = "80958095";
+
+    private static StringBuilder insertQuery = new StringBuilder();
 
     public static Connection getConnection() {
         if (connection == null) {
@@ -20,17 +22,38 @@ public class DBConnection {
                     "name TINYTEXT NOT NULL, " +
                     "birthDate DATE NOT NULL, " +
                     "`count` INT NOT NULL, " +
-                    "PRIMARY KEY(id))");
+                    "PRIMARY KEY(id), KEY(name(50)))");
+                    //"UNIQUE KEY name_date(name(55), birthDate))");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
         return connection;
     }
+    public static int customSelect() throws SQLException{
+        String sql = "SELECT id FROM voter_count WHERE name='Исачев Эмилиан'";
+        ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);
+        if(!rs.next()){
+            return -1;
+        }else {
+            return rs.getInt("id");
+        }
+    }
+
+    public static void executeMultiInsert() throws SQLException{
+        String sql = "INSERT INTO voter_count(name, birthDate, `count`) " +
+                "VALUES" + insertQuery.toString() +
+                "ON DUPLICATE KEY UPDATE `count`=`count` + 1";
+        DBConnection.getConnection().createStatement().execute(sql);
+    }
 
     public static void countVoter(String name, String birthDay) throws SQLException {
         birthDay = birthDay.replace('.', '-');
-        String sql =
+
+        insertQuery.append((insertQuery.length() == 0 ? "" : ",") +
+                "('" + name + "', '" + birthDay + "', 1)");
+
+        /*String sql =
             "SELECT id FROM voter_count WHERE birthDate='" + birthDay + "' AND name='" + name + "'";
         ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);
         if (!rs.next()) {
@@ -42,7 +65,7 @@ public class DBConnection {
             DBConnection.getConnection().createStatement()
                 .execute("UPDATE voter_count SET `count`=`count`+1 WHERE id=" + id);
         }
-        rs.close();
+        rs.close();*/
     }
 
     public static void printVoterCounts() throws SQLException {
@@ -50,7 +73,7 @@ public class DBConnection {
         ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);
         while (rs.next()) {
             System.out.println("\t" + rs.getString("name") + " (" +
-                rs.getString("birthDate") + ") - " + rs.getInt("count"));
+                    rs.getString("birthDate") + ") - " + rs.getInt("count"));
         }
     }
 }

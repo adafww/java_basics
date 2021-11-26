@@ -19,12 +19,16 @@ public class Loader {
     private static HashMap<Voter, Integer> voterCounts = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
-        String fileName = "res/data-1M.xml";
 
+        String fileName = "res/data-1M.xml";
+        long start = System.currentTimeMillis();
         parseFile(fileName);
+        DBConnection.customSelect();
+        System.out.println("Parsing duration: " + (System.currentTimeMillis() - start) + " ms");
 
         //Printing results
-        System.out.println("Voting station work times: ");
+        DBConnection.printVoterCounts();
+        /*System.out.println("Voting station work times: ");
         for (Integer votingStation : voteStationWorkTimes.keySet()) {
             WorkTime workTime = voteStationWorkTimes.get(votingStation);
             System.out.println("\t" + votingStation + " - " + workTime);
@@ -36,7 +40,7 @@ public class Loader {
             if (count > 1) {
                 System.out.println("\t" + voter + " - " + count);
             }
-        }
+        }*/
     }
 
     private static void parseFile(String fileName) throws Exception {
@@ -45,7 +49,7 @@ public class Loader {
         Document doc = db.parse(new File(fileName));
 
         findEqualVoters(doc);
-        fixWorkTimes(doc);
+        //fixWorkTimes(doc);
     }
 
     private static void findEqualVoters(Document doc) throws Exception {
@@ -54,15 +58,16 @@ public class Loader {
         for (int i = 0; i < votersCount; i++) {
             Node node = voters.item(i);
             NamedNodeMap attributes = node.getAttributes();
-
             String name = attributes.getNamedItem("name").getNodeValue();
-            Date birthDay = birthDayFormat
-                .parse(attributes.getNamedItem("birthDay").getNodeValue());
+            String birthDay = attributes.getNamedItem("birthDay").getNodeValue();
+            DBConnection.countVoter(name, birthDay);
 
-            Voter voter = new Voter(name, birthDay);
+            //Date birthDay = birthDayFormat.parse(attributes.getNamedItem("birthDay").getNodeValue());
+            /*Voter voter = new Voter(name, birthDay);
             Integer count = voterCounts.get(voter);
-            voterCounts.put(voter, count == null ? 1 : count + 1);
+            voterCounts.put(voter, count == null ? 1 : count + 1);*/
         }
+        DBConnection.executeMultiInsert();
     }
 
     private static void fixWorkTimes(Document doc) throws Exception {
