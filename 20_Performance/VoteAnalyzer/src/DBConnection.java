@@ -39,14 +39,12 @@ public class DBConnection {
             return rs.getInt("id");
         }
     }
-
     public static void executeMultiInsert() throws SQLException{
         String sql = "INSERT INTO voter_count(name, birthDate, `count`) " +
                 "VALUES" + insertQuery.toString() +
                 "ON DUPLICATE KEY UPDATE `count`=`count` + 1";
         DBConnection.getConnection().createStatement().execute(sql);
     }
-
     public static void countVoter(String name, String birthDay) throws SQLException {
         birthDay = birthDay.replace('.', '-');
 
@@ -67,7 +65,6 @@ public class DBConnection {
         }
         rs.close();*/
     }
-
     public static void printVoterCounts() throws SQLException {
         String sql = "SELECT name, birthDate, `count` FROM voter_count WHERE `count` > 1";
         ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);

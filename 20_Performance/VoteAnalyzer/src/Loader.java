@@ -25,9 +25,9 @@ public class Loader {
         parseFile(fileName);
         DBConnection.customSelect();
         System.out.println("Parsing duration: " + (System.currentTimeMillis() - start) + " ms");
-
         //Printing results
         DBConnection.printVoterCounts();
+
         /*System.out.println("Voting station work times: ");
         for (Integer votingStation : voteStationWorkTimes.keySet()) {
             WorkTime workTime = voteStationWorkTimes.get(votingStation);
